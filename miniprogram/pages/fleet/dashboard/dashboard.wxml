@@ -20,7 +20,7 @@
         <text class="stat-label">维修中</text>
       </view>
       <view class="stat-card" bindtap="goExpense">
-        <text class="stat-num expense">{{stats.monthlyExpense.toLocaleString()}}</text>
+        <text class="stat-num expense">{{stats._monthlyExpenseDisplay}}</text>
         <text class="stat-label">本月支出(元)</text>
       </view>
     </view>
@@ -97,7 +97,7 @@
             <text>司机: {{item.driver}}</text>
           </view>
           <view class="vehicle-mileage">
-            <text>里程: {{item.mileage < 10000 ? item.mileage + ' km' : (item.mileage / 10000).toFixed(1) + ' 万 km'}}</text>
+            <text>里程: {{item._mileageDisplay}}</text>
           </view>
         </view>
       </view>
