@@ -7,9 +7,8 @@ Three tables:
 """
 
 import datetime
-from decimal import Decimal
 from sqlalchemy import (
-    String, Integer, Float, Numeric, DateTime, Date, Text, ForeignKey, JSON, func,
+    String, Integer, Float, DateTime, Date, Text, ForeignKey, func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -36,11 +35,11 @@ class AIRepairRecommendation(Base):
     mileage: Mapped[int] = mapped_column(
         Integer, default=0, comment="当前里程(km)"
     )
-    recommendation_json: Mapped[dict] = mapped_column(
-        JSON, nullable=False, comment="AI推荐结果(结构化JSON)"
+    recommendation_json: Mapped[str] = mapped_column(
+        Text, nullable=False, comment="AI推荐结果(结构化JSON字符串)"
     )
-    total_estimate: Mapped[Decimal] = mapped_column(
-        Numeric(12, 2), default=Decimal("0.00"), comment="预估总费用(元)"
+    total_estimate: Mapped[float] = mapped_column(
+        Float, default=0.0, comment="预估总费用(元)"
     )
     model_used: Mapped[str] = mapped_column(
         String(64), default="", comment="AI模型名称"
