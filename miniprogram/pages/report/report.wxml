@@ -1,0 +1,77 @@
+<view class="page">
+
+  <!-- Tab 切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{tabType === 'daily' ? 'active' : ''}}" bindtap="switchTab" data-type="daily">日报</view>
+    <view class="tab-item {{tabType === 'monthly' ? 'active' : ''}}" bindtap="switchTab" data-type="monthly">月报</view>
+  </view>
+
+  <!-- 日期选择器 -->
+  <view class="date-picker" bindtap="pickDate">
+    <text class="date-arrow">&#8249;</text>
+    <text class="date-text">{{dateLabel}}</text>
+    <text class="date-arrow">&#8250;</text>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="report-cards">
+    <view class="report-card income">
+      <text class="card-icon">💰</text>
+      <view class="card-body">
+        <text class="card-label">营收</text>
+        <text class="card-value">{{report.total_revenue || 0}}</text>
+      </view>
+    </view>
+    <view class="report-card orders">
+      <text class="card-icon">📋</text>
+      <view class="card-body">
+        <text class="card-label">{{tabType === 'daily' ? '今日工单' : '本月工单'}}</text>
+        <text class="card-value">{{report.order_count || 0}}</text>
+      </view>
+    </view>
+    <view class="report-card avg">
+      <text class="card-icon">📊</text>
+      <view class="card-body">
+        <text class="card-label">客单价</text>
+        <text class="card-value">{{report.avg_order_amount || 0}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 图表标题 -->
+  <view class="card">
+    <view class="section-title">{{tabType === 'daily' ? '本周趋势' : '本年趋势'}}</view>
+    <view class="trend-chart">
+      <view wx:for="{{trendData}}" wx:key="index" class="trend-bar-wrap">
+        <view class="trend-bar" style="height: {{item._barHeight}}%;">
+          <text class="trend-bar-val">{{item.value}}</text>
+        </view>
+        <text class="trend-bar-label">{{item.label}}</text>
+      </view>
+      <block wx:if="{{trendData.length === 0}}">
+        <view class="empty-state chart-empty">暂无趋势数据</view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 详细列表 -->
+  <view class="card">
+    <view class="section-title">明细</view>
+    <view wx:for="{{details}}" wx:key="id" class="detail-item">
+      <view class="detail-left">
+        <text class="detail-period">{{item._period}}</text>
+        <text class="detail-orders">{{item.order_count}}单</text>
+      </view>
+      <view class="detail-right">
+        <text class="detail-revenue">{{item.revenue}}</text>
+        <text class="detail-avg">客均 {{item.avg_amount}}</text>
+      </view>
+    </view>
+    <block wx:if="{{details.length === 0}}">
+      <view wx:if="{{!loading}}" class="empty-state">暂无明细数据</view>
+    </block>
+  </view>
+
+  <!-- 加载 -->
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+</view>
