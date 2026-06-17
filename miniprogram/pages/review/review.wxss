@@ -1,0 +1,30 @@
+.page { min-height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 40rpx; }
+.card { background: #fff; border-radius: 16rpx; margin: 20rpx; padding: 28rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06); }
+.section-title { font-size: 30rpx; font-weight: 600; margin-bottom: 24rpx; }
+.form-group { margin-bottom: 24rpx; }
+.form-label { font-size: 26rpx; color: #666; margin-bottom: 8rpx; display: block; }
+.input-field { width: 100%; height: 72rpx; border: 2rpx solid #eee; border-radius: 12rpx; padding: 0 20rpx; font-size: 28rpx; box-sizing: border-box; }
+.textarea-field { width: 100%; min-height: 140rpx; border: 2rpx solid #eee; border-radius: 12rpx; padding: 16rpx 20rpx; font-size: 28rpx; box-sizing: border-box; }
+.btn-primary { width: 100%; height: 88rpx; line-height: 88rpx; background: #1a1a2e; color: #fff; border-radius: 12rpx; font-size: 30rpx; font-weight: 600; text-align: center; border: none; }
+.btn-primary[disabled] { opacity: 0.5; }
+.loading { text-align: center; color: #999; padding: 40rpx 0; font-size: 26rpx; }
+.empty { text-align: center; color: #bbb; padding: 60rpx 0; font-size: 28rpx; }
+
+/* 星星评分 */
+.star-row { display: flex; align-items: center; gap: 8rpx; }
+.star-item { padding: 8rpx; }
+.star { font-size: 48rpx; color: #ddd; transition: color .2s; }
+.star.active { color: #ff9800; }
+.star.small { font-size: 32rpx; }
+.rating-text { font-size: 26rpx; color: #ff9800; margin-left: 12rpx; }
+.rating-text.muted { color: #bbb; }
+
+/* 评价列表 */
+.review-list { border-top: 2rpx solid #f5f5f5; }
+.review-item { padding: 24rpx 0; border-bottom: 2rpx solid #f5f5f5; }
+.review-item:last-child { border-bottom: none; }
+.review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12rpx; }
+.review-stars { display: flex; gap: 4rpx; }
+.review-date { font-size: 22rpx; color: #bbb; }
+.review-comment { font-size: 26rpx; color: #333; line-height: 1.6; }
+.review-comment.muted { color: #bbb; }
