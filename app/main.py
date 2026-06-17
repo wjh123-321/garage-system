@@ -34,19 +34,19 @@ FRONTEND_DIR = os.path.join(_BASE, "frontend", "dist")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Create tables on startup - auto-creates DB if needed."""
+    from sqlalchemy import create_engine as _ce, text as _text
     try:
         Base.metadata.create_all(bind=engine)
     except Exception as e:
         logging.warning(f"Table creation failed: {e}")
         try:
-            from sqlalchemy import create_engine as ce, text
-            tmp = ce(f"postgresql://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/postgres", isolation_level="AUTOCOMMIT")
+            tmp = _ce(f"postgresql://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/postgres", isolation_level="AUTOCOMMIT")
             with tmp.connect() as conn:
-                conn.execute(text(f"CREATE DATABASE "{settings.DB_NAME}""))
+                conn.execute(_text(f'CREATE DATABASE "{settings.DB_NAME}"'))
             tmp.dispose()
             Base.metadata.create_all(bind=engine)
         except Exception as e2:
-            logging.warning(f"DB create failed: {e2}")
+            logging.warning(f"DB create also failed: {e2}")
     yield
 
 
