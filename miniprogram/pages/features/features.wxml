@@ -1,0 +1,35 @@
+<view class="page">
+
+  <view class="section-title">📋 核心管理</view>
+  <view class="feature-grid">
+    <view class="feature-card" bindtap="goPage" data-url="{{item.url}}" wx:for="{{coreFeatures}}" wx:key="id">
+      <text class="feature-icon">{{item.icon}}</text>
+      <text class="feature-name">{{item.name}}</text>
+    </view>
+  </view>
+
+  <view class="section-title">🆕 新功能</view>
+  <view class="feature-grid">
+    <view class="feature-card" bindtap="goPage" data-url="{{item.url}}" wx:for="{{newFeatures}}" wx:key="id">
+      <text class="feature-icon">{{item.icon}}</text>
+      <text class="feature-name">{{item.name}}</text>
+    </view>
+  </view>
+
+  <view class="section-title">📊 分析</view>
+  <view class="feature-grid">
+    <view class="feature-card" bindtap="goPage" data-url="{{item.url}}" wx:for="{{analyticsFeatures}}" wx:key="id">
+      <text class="feature-icon">{{item.icon}}</text>
+      <text class="feature-name">{{item.name}}</text>
+    </view>
+  </view>
+
+  <view class="section-title">⚙️ 设置</view>
+  <view class="feature-grid">
+    <view class="feature-card" bindtap="goPage" data-url="{{item.url}}" wx:for="{{settingFeatures}}" wx:key="id">
+      <text class="feature-icon">{{item.icon}}</text>
+      <text class="feature-name">{{item.name}}</text>
+    </view>
+  </view>
+
+</view>
