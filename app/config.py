@@ -1,7 +1,8 @@
 """Application configuration via environment variables."""
 
-from pydantic_settings import BaseSettings
 import os
+
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -9,13 +10,54 @@ class Settings(BaseSettings):
     APP_VERSION: str = "0.1.0"
     DEBUG: bool = False
 
-    # PostgreSQL - Zeabur auto-injects via service binding
-    # Use auto-injected vars first, fallback to defaults
-    DB_HOST: str = os.getenv("DB_HOST") or os.getenv("POSTGRESQL_HOST") or "localhost"
-    DB_PORT: int = int(os.getenv("DB_PORT") or os.getenv("POSTGRESQL_PORT") or "5432")
-    DB_USER: str = os.getenv("DB_USER") or os.getenv("POSTGRESQL_USER") or "postgres"
-    DB_PASSWORD: str = os.getenv("DB_PASSWORD") or os.getenv("PASSWORD") or os.getenv("POSTGRESQL_PASSWORD") or "postgres"
-    DB_NAME: str = os.getenv("DB_NAME") or os.getenv("POSTGRESQL_NAME") or "postgres"
+    # PostgreSQL
+    DB_HOST: str = "localhost"
+    DB_PORT: int = 5432
+    DB_USER: str = "postgres"
+    DB_PASSWORD: str = "postgres"
+    DB_NAME: str = "garage_system"
+
+    def __init__(self, **kwargs):
+        # Zeabur-compatible env var fallback chains.
+        # Zeabur injects POSTGRES_PASSWORD (and similar) automatically,
+        # but the field name may not match. We resolve the first available
+        # env var for each credential and pass it as a keyword argument
+        # (highest priority in pydantic-settings resolution order).
+        if "DB_PASSWORD" not in kwargs:
+            kwargs["DB_PASSWORD"] = (
+                os.environ.get("DB_PASSWORD")
+                or os.environ.get("POSTGRES_PASSWORD")
+                or os.environ.get("PASSWORD")
+                or "postgres"
+            )
+        if "DB_HOST" not in kwargs:
+            kwargs["DB_HOST"] = (
+                os.environ.get("DB_HOST")
+                or os.environ.get("POSTGRES_HOST")
+                or os.environ.get("POSTGRESQL_HOST")
+                or "localhost"
+            )
+        if "DB_PORT" not in kwargs:
+            kwargs["DB_PORT"] = int(
+                os.environ.get("DB_PORT")
+                or os.environ.get("POSTGRES_PORT")
+                or "5432"
+            )
+        if "DB_USER" not in kwargs:
+            kwargs["DB_USER"] = (
+                os.environ.get("DB_USER")
+                or os.environ.get("POSTGRES_USER")
+                or os.environ.get("POSTGRES_USERNAME")
+                or "postgres"
+            )
+        if "DB_NAME" not in kwargs:
+            kwargs["DB_NAME"] = (
+                os.environ.get("DB_NAME")
+                or os.environ.get("POSTGRES_NAME")
+                or os.environ.get("POSTGRESQL_NAME")
+                or "postgres"
+            )
+        super().__init__(**kwargs)
 
     @property
     def DATABASE_URL(self) -> str:
@@ -24,11 +66,13 @@ class Settings(BaseSettings):
             f"@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
         )
 
+    # JWT (for future auth extension)
     SECRET_KEY: str = "change-this-in-production-super-secret-key"
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 480
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 480  # 8 hours
 
-    CORS_ORIGINS: list[str] = ["*"]
+    # CORS
+    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000"]
 
     # Volcengine Ark AI
     VOLC_ARK_API_KEY: str = "ark-1b134190-ce8b-4aba-a0f7-b349445b8c2c-c8e9a"
