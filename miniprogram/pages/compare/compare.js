@@ -1,4 +1,4 @@
-const app = getApp();
+const api = require('../../utils/api');
 
 Page({
   data: {
@@ -22,25 +22,19 @@ Page({
     const start = '2026-01-01';
     const end = this._fmtDate(now);
 
-    return wx.request({
-      url: `${app.globalData.baseUrl}/reports/compare`,
-      data: { start, end },
-      success: (res) => {
-        if (res.data && res.data.current) {
+    return api.request('/reports/compare', 'GET', { start, end }).then(function(data) {
+        if (data && data.current) {
           this.setData({
-            current: res.data.current,
-            previous: res.data.previous,
-            changes: res.data.changes,
+            current: data.current,
+            previous: data.previous,
+            changes: data.changes,
           });
         }
-      },
-      fail: () => {
-        wx.showToast({ title: '加载失败', icon: 'none' });
-      },
-      complete: () => {
         this.setData({ loading: false });
-      },
-    });
+      }.bind(this), function() {
+        wx.showToast({ title: '加载失败', icon: 'none' });
+        this.setData({ loading: false });
+      }.bind(this));
   },
 
   _fmtDate(d) {
