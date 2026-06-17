@@ -1,9 +1,8 @@
 """Work order and work order item models."""
 
 import datetime
-from decimal import Decimal
 from sqlalchemy import (
-    String, Integer, Numeric, DateTime, Text, ForeignKey, func,
+    String, Integer, Float, DateTime, Text, ForeignKey, func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -30,8 +29,8 @@ class WorkOrder(Base):
     )
     description: Mapped[str] = mapped_column(Text, default="", comment="故障描述")
     technician: Mapped[str] = mapped_column(String(64), default="", comment="维修技师")
-    total_amount: Mapped[Decimal] = mapped_column(
-        Numeric(12, 2), default=Decimal("0.00"), comment="总金额"
+    total_amount: Mapped[float] = mapped_column(
+        Float, default=0.0, comment="总金额"
     )
     remark: Mapped[str] = mapped_column(Text, default="", comment="备注")
     created_at: Mapped[datetime.datetime] = mapped_column(
@@ -70,11 +69,11 @@ class WorkOrderItem(Base):
         ForeignKey("parts.id"), nullable=True, comment="关联配件ID"
     )
     quantity: Mapped[int] = mapped_column(Integer, default=1, comment="数量")
-    unit_price: Mapped[Decimal] = mapped_column(
-        Numeric(12, 2), default=Decimal("0.00"), comment="单价"
+    unit_price: Mapped[float] = mapped_column(
+        Float, default=0.0, comment="单价"
     )
-    total_price: Mapped[Decimal] = mapped_column(
-        Numeric(12, 2), default=Decimal("0.00"), comment="小计"
+    total_price: Mapped[float] = mapped_column(
+        Float, default=0.0, comment="小计"
     )
 
     work_order = relationship("WorkOrder", back_populates="items")
