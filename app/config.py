@@ -8,12 +8,12 @@ class Settings(BaseSettings):
     APP_VERSION: str = "0.1.0"
     DEBUG: bool = False
 
-    # PostgreSQL
+    # PostgreSQL - can be overridden by env vars (Zeabur auto-injects)
     DB_HOST: str = "localhost"
     DB_PORT: int = 5432
     DB_USER: str = "postgres"
     DB_PASSWORD: str = "postgres"
-    DB_NAME: str = "garage_system"
+    DB_NAME: str = "postgres"
 
     @property
     def DATABASE_URL(self) -> str:
