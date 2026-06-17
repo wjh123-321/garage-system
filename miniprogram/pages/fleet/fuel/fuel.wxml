@@ -1,0 +1,107 @@
+<view class="page">
+
+  <!-- ========== 汇总卡片 ========== -->
+  <view class="summary-card">
+    <view class="summary-header">
+      <text class="summary-title">油耗概览</text>
+      <view class="vehicle-picker" bindtap="pickVehicle">
+        <text class="vehicle-text">{{vehicleName}}</text>
+        <text class="vehicle-arrow">&#9660;</text>
+      </view>
+    </view>
+    <view class="summary-grid">
+      <view class="summary-item">
+        <text class="summary-num">{{summary.totalMileage}}</text>
+        <text class="summary-label">总里程 (km)</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-num">{{summary.totalCost}}</text>
+        <text class="summary-label">总油费</text>
+      </view>
+      <view class="summary-item highlight">
+        <text class="summary-num">{{summary.avgConsumption}}</text>
+        <text class="summary-label">平均油耗 (L/100km)</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ========== 添加按钮 ========== -->
+  <view class="add-bar">
+    <view class="add-btn" bindtap="showAddForm">
+      <text class="add-icon">+</text>
+      <text>添加加油记录</text>
+    </view>
+  </view>
+
+  <!-- ========== 表单弹层 ========== -->
+  <view wx:if="{{formVisible}}" class="mask" bindtap="hideAddForm"></view>
+  <view wx:if="{{formVisible}}" class="form-panel">
+    <view class="form-title">添加加油记录</view>
+
+    <view class="form-group">
+      <text class="form-label">日期</text>
+      <picker mode="date" value="{{form.date}}" bindchange="onDateChange">
+        <view class="form-input picker-text">{{form.date || '请选择日期'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">当前里程 (km)</text>
+      <input class="form-input" type="text" placeholder="例: 12345" value="{{form.mileage}}" bindinput="onFieldInput" data-field="mileage" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">加油量 (L)</text>
+      <input class="form-input" type="digit" placeholder="例: 45.5" value="{{form.liters}}" bindinput="onFieldInput" data-field="liters" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">金额 (元)</text>
+      <input class="form-input" type="digit" placeholder="例: 350" value="{{form.amount}}" bindinput="onFieldInput" data-field="amount" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">加油站</text>
+      <input class="form-input" type="text" placeholder="例: 中石化XX站" value="{{form.station}}" bindinput="onFieldInput" data-field="station" />
+    </view>
+
+    <view class="form-actions">
+      <view class="form-btn cancel" bindtap="hideAddForm">取消</view>
+      <view class="form-btn submit" bindtap="submitRecord">保存</view>
+    </view>
+  </view>
+
+  <!-- ========== 记录列表 ========== -->
+  <view class="section-title">加油记录</view>
+
+  <view wx:if="{{records.length === 0 && !loading}}" class="empty-state">
+    <text class="empty-icon">⛽</text>
+    <text>暂无加油记录</text>
+    <text class="empty-hint">点击上方按钮添加第一条记录</text>
+  </view>
+
+  <view wx:for="{{records}}" wx:key="id" class="record-item">
+    <view class="record-top">
+      <text class="record-date">{{item.date}}</text>
+      <text class="record-station" wx:if="{{item.station}}">{{item.station}}</text>
+    </view>
+    <view class="record-details">
+      <view class="record-field">
+        <text class="field-label">里程</text>
+        <text class="field-value">{{item.mileage}} km</text>
+      </view>
+      <view class="record-field">
+        <text class="field-label">油量</text>
+        <text class="field-value">{{item.liters}} L</text>
+      </view>
+      <view class="record-field">
+        <text class="field-label">金额</text>
+        <text class="field-value cost">{{item.amount}} 元</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ========== 加载 ========== -->
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+
+</view>
