@@ -1,9 +1,8 @@
 """Part inventory and transaction models."""
 
 import datetime
-from decimal import Decimal
 from sqlalchemy import (
-    String, Integer, Numeric, DateTime, Text, ForeignKey, func,
+    String, Integer, Float, DateTime, Text, ForeignKey, func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -25,8 +24,8 @@ class Part(Base):
     unit: Mapped[str] = mapped_column(String(16), default="个", comment="单位")
     quantity: Mapped[int] = mapped_column(Integer, default=0, comment="当前库存")
     min_stock: Mapped[int] = mapped_column(Integer, default=5, comment="最低库存预警")
-    unit_price: Mapped[Decimal] = mapped_column(
-        Numeric(12, 2), default=Decimal("0.00"), comment="单价(元)"
+    unit_price: Mapped[float] = mapped_column(
+        Float, default=0.0, comment="单价(元)"
     )
     supplier: Mapped[str] = mapped_column(String(128), default="", comment="供应商")
     remark: Mapped[str] = mapped_column(Text, default="", comment="备注")
@@ -60,8 +59,8 @@ class InventoryTransaction(Base):
         String(8), nullable=False, comment="类型: in(入库) / out(出库)"
     )
     quantity: Mapped[int] = mapped_column(Integer, nullable=False, comment="数量")
-    unit_price: Mapped[Decimal] = mapped_column(
-        Numeric(12, 2), default=Decimal("0.00"), comment="变动时单价"
+    unit_price: Mapped[float] = mapped_column(
+        Float, default=0.0, comment="变动时单价"
     )
     reference_type: Mapped[str] = mapped_column(
         String(32), default="", comment="关联类型: purchase_order / work_order / adjustment"
