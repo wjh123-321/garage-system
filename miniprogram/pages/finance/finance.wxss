@@ -1,0 +1,109 @@
+.page { min-height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 40rpx; }
+
+/* 错误状态 */
+.error-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 200rpx 40rpx;
+}
+.error-icon { font-size: 80rpx; margin-bottom: 20rpx; }
+.error-text { font-size: 28rpx; color: #999; margin-bottom: 30rpx; }
+.retry-btn {
+  padding: 16rpx 48rpx; background: #1a1a2e; color: #fff;
+  border-radius: 40rpx; font-size: 28rpx;
+}
+
+/* 筛选栏 */
+.filter-bar {
+  background: #fff; margin: 20rpx 24rpx; border-radius: 20rpx;
+  padding: 16rpx 20rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.filter-tabs {
+  display: flex; gap: 8rpx;
+}
+.filter-tab {
+  flex: 1; text-align: center; padding: 12rpx 0;
+  font-size: 24rpx; color: #666; border-radius: 12rpx;
+}
+.filter-tab.active {
+  background: #1a1a2e; color: #fff; font-weight: 500;
+}
+.date-custom {
+  margin-top: 12rpx; display: flex; align-items: center; justify-content: center; gap: 8rpx;
+  border-top: 2rpx solid #f0f0f0; padding-top: 12rpx;
+}
+.date-label { font-size: 26rpx; color: #333; }
+.date-arrow { font-size: 20rpx; color: #bbb; }
+
+/* 汇总卡片 */
+.summary-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16rpx;
+  margin: 16rpx 24rpx;
+}
+.summary-card {
+  background: #fff; border-radius: 20rpx; padding: 24rpx 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.summary-label { font-size: 24rpx; color: #999; display: block; margin-bottom: 8rpx; }
+.summary-num { font-size: 40rpx; font-weight: 700; display: block; }
+.summary-num.primary { color: #1a1a2e; }
+.summary-num.income { color: #2e7d32; }
+.summary-num.expense { color: #c62828; }
+.summary-num.profit { color: #2e7d32; }
+.summary-num.loss { color: #c62828; }
+
+/* 图表卡片 */
+.chart-card { margin: 16rpx 24rpx; }
+.section-title {
+  font-size: 32rpx; font-weight: 600; margin-bottom: 24rpx;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.detail-count { font-size: 24rpx; color: #bbb; font-weight: 400; }
+.chart-bar { padding: 8rpx 0; }
+.chart-row {
+  display: flex; align-items: center; gap: 16rpx; margin-bottom: 20rpx;
+}
+.chart-row:last-child { margin-bottom: 0; }
+.chart-label { width: 60rpx; font-size: 24rpx; color: #666; flex-shrink: 0; }
+.chart-track {
+  flex: 1; height: 24rpx; background: #f0f0f0; border-radius: 12rpx; overflow: hidden;
+}
+.chart-fill { height: 100%; border-radius: 12rpx; transition: width 0.3s ease; }
+.income-bar { background: linear-gradient(90deg, #43a047, #66bb6a); }
+.expense-bar { background: linear-gradient(90deg, #e53935, #ef5350); }
+.chart-value { width: 120rpx; text-align: right; font-size: 24rpx; font-weight: 600; flex-shrink: 0; }
+
+/* 明细列表 */
+.card {
+  background: #fff; border-radius: 20rpx; padding: 28rpx 24rpx;
+  margin: 16rpx 24rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.loading-state, .empty-state {
+  display: flex; flex-direction: column; align-items: center; padding: 60rpx 0;
+}
+.loading-text { font-size: 26rpx; color: #bbb; }
+.empty-icon { font-size: 80rpx; margin-bottom: 16rpx; }
+.empty-text { font-size: 28rpx; color: #999; }
+.empty-hint { font-size: 24rpx; color: #ccc; margin-top: 8rpx; }
+
+.detail-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24rpx 0; border-bottom: 2rpx solid #f5f5f5;
+}
+.detail-item:last-child { border-bottom: none; }
+.detail-left { display: flex; align-items: center; gap: 16rpx; flex: 1; min-width: 0; }
+.detail-icon { font-size: 36rpx; flex-shrink: 0; }
+.detail-info { flex: 1; min-width: 0; }
+.detail-type { font-size: 28rpx; font-weight: 500; color: #333; display: block; }
+.detail-desc {
+  font-size: 24rpx; color: #999; margin-top: 4rpx;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.detail-time { font-size: 22rpx; color: #ccc; margin-top: 2rpx; display: block; }
+.detail-amount { font-size: 32rpx; font-weight: 700; flex-shrink: 0; }
+.detail-amount.income { color: #2e7d32; }
+.detail-amount.expense { color: #c62828; }
+
+/* 加载更多 */
+.load-more { text-align: center; padding: 24rpx 0; }
+.load-end { border-top: none; }
+.load-text { font-size: 24rpx; color: #bbb; }
