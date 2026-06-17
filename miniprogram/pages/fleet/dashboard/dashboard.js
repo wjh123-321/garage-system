@@ -26,24 +26,22 @@ Page({
   async loadData() {
     this.setData({ loading: true })
     try {
-      const [fleetStats, fleetTodos, fleetVehicles] = await Promise.all([
-        api.getFleetStats ? api.getFleetStats().catch(() => ({})) : Promise.resolve({}),
-        api.getFleetTodos ? api.getFleetTodos().catch(() => ({})) : Promise.resolve({}),
-        api.getFleetVehicles ? api.getFleetVehicles().catch(() => []) : Promise.resolve([])
-      ])
+      const dashData = await api.getFleetDashboard().catch(function() { return {} })
+      const vehData = await api.getFleetVehicles().catch(function() { return [] })
 
       this.setData({
         stats: {
-          totalVehicles: fleetStats.total_vehicles || fleetStats.total || 0,
-          runningCount: fleetStats.running_count || fleetStats.running || 0,
-          maintenanceCount: fleetStats.maintenance_count || fleetStats.maintenance || 0,
-          monthlyExpense: fleetStats.monthly_expense || fleetStats.expense || 0
+          totalVehicles: dashData.total_vehicles || dashData.total || 0,
+          runningCount: dashData.running || dashData.active || 0,
+          maintenanceCount: dashData.maintenance || 0,
+          monthlyExpense: dashData.month_expense || dashData.monthly_expense || 0,
+          _monthlyExpenseDisplay: (dashData.month_expense || 0).toLocaleString()
         },
         todos: {
-          maintenanceDue: fleetTodos.maintenance_due || fleetTodos.maintenance || 0,
-          inspectionDue: fleetTodos.inspection_due || fleetTodos.inspection || 0
+          maintenanceDue: dashData.due_maintenance || 0,
+          inspectionDue: dashData.due_inspection || 0
         },
-        vehicles: Array.isArray(fleetVehicles) ? fleetVehicles.map(this._formatVehicle.bind(this)) : [],
+        vehicles: Array.isArray(vehData) ? vehData.map(this._formatVehicle.bind(this)) : [],
         loading: false
       })
     } catch (e) {
@@ -68,7 +66,8 @@ Page({
       status: status,
       _statusLabel: info.label,
       _statusClass: info.className,
-      _statusColor: info.color
+      _statusColor: info.color,
+      _mileageDisplay: vehicle.mileage < 10000 ? vehicle.mileage + ' km' : (vehicle.mileage / 10000).toFixed(1) + ' 万 km'
     }
   },
 
