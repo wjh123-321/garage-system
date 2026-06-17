@@ -77,6 +77,24 @@ Page({
     })
     s.net_profit = s.work_order_income - s.parts_expense
     s.total_revenue = s.work_order_income + s.parts_expense
+    return this._enrichSummary(s)
+  },
+
+  _enrichSummary(s) {
+    var income = s.work_order_income || 0
+    var expense = s.parts_expense || 0
+    var total = income + expense
+    var profit = s.net_profit || 0
+    var barTotal = total > 0 ? total : 1
+    s._revenueDisplay = s.total_revenue.toFixed(2)
+    s._incomeDisplay = income.toFixed(2)
+    s._expenseDisplay = expense.toFixed(2)
+    s._profitDisplay = profit.toFixed(2)
+    s._profitClass = profit >= 0 ? 'profit' : 'loss'
+    s._incomeBarWidth = (income / barTotal * 100).toFixed(1)
+    s._expenseBarWidth = (expense / barTotal * 100).toFixed(1)
+    s._incomeShortDisplay = income.toFixed(0)
+    s._expenseShortDisplay = expense.toFixed(0)
     return s
   },
 
@@ -88,8 +106,9 @@ Page({
         this._fetchDetails(1)
       ])
       const list = (details.items || details.data || details.records || []).map(this._computeItemDisplay.bind(this))
+      var enrichedSummary = summary ? this._enrichSummary(summary) : this._buildSummaryFromDetails(list)
       this.setData({
-        summary: summary || this._buildSummaryFromDetails(list),
+        summary: enrichedSummary,
         details: list,
         loading: false,
         _showEmpty: list.length === 0
@@ -109,7 +128,7 @@ Page({
     try {
       const summary = await this._fetchSummary()
       if (summary) {
-        this.setData({ summary: summary })
+        this.setData({ summary: this._enrichSummary(summary) })
       }
     } catch (_) {}
   },
@@ -260,9 +279,9 @@ Page({
 
   // 点击明细项查看工单详情
   onItemTap(e) {
-    const orderNo = e.currentTarget.dataset.order
-    if (orderNo) {
-      wx.navigateTo({ url: '/pages/work-order/detail/detail?order_no=' + orderNo })
+    const id = e.currentTarget.dataset.id
+    if (id) {
+      wx.navigateTo({ url: '/pages/work-order/detail/detail?id=' + id })
     }
   },
 
