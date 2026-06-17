@@ -1,0 +1,42 @@
+<view class="page">
+  <view class="page-header">
+    <text class="page-title">短信提醒</text>
+    <view class="send-all-btn" bindtap="sendAll">全部发送</view>
+  </view>
+
+  <block wx:if="{{_showEmpty && !loading}}">
+    <view class="empty-state">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无待发送提醒</text>
+    </view>
+  </block>
+
+  <view wx:for="{{notifications}}" wx:key="id" class="notification-card {{item.status}}">
+    <view class="card-top">
+      <view class="type-tag">
+        <text>{{item._typeIcon}} {{item._typeLabel}}</text>
+      </view>
+      <text class="status-badge {{item._statusClass}}">{{item._statusLabel}}</text>
+    </view>
+
+    <view class="card-body">
+      <view class="info-row">
+        <text class="label">车主</text>
+        <text>{{item.customer_name}}</text>
+      </view>
+      <view class="info-row">
+        <text class="label">车牌</text>
+        <text class="plate">{{item.car_plate}}</text>
+      </view>
+      <view class="msg-preview">{{item.message}}</view>
+    </view>
+
+    <view class="card-footer">
+      <text class="time">{{item._time}}</text>
+      <view wx:if="{{item.status === 'pending'}}" class="sent-btn" bindtap="markAsSent" data-id="{{item.id}}">标记已发送</view>
+      <view wx:else class="sent-btn disabled">已发送</view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+</view>
