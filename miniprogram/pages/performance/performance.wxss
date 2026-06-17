@@ -1,0 +1,236 @@
+/* 技师绩效页面样式 */
+.page {
+  min-height: 100vh;
+  background-color: #f5f6fa;
+  padding-bottom: 20rpx;
+}
+
+/* 统计概览卡片 */
+.summary-card {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: linear-gradient(135deg, #2b5cf5, #1a3d9e);
+  margin: 20rpx;
+  padding: 30rpx 20rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(43, 92, 245, 0.25);
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.summary-num {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6rpx;
+}
+
+.summary-label {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 排行榜头部 */
+.ranking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10rpx 20rpx 20rpx;
+}
+
+.ranking-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.ranking-tabs {
+  display: flex;
+  background: #e8ecf4;
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.tab {
+  padding: 10rpx 24rpx;
+  font-size: 26rpx;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  background: #2b5cf5;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* 技师列表 */
+.list {
+  height: calc(100vh - 320rpx);
+}
+
+/* 技师卡片 */
+.technician-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  margin: 0 20rpx 16rpx;
+  padding: 24rpx 20rpx;
+  border-radius: 14rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+
+/* 排名徽章 */
+.rank-badge {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.rank-badge.top1 {
+  background: #ffd700;
+  border-radius: 50%;
+}
+.rank-badge.top2 {
+  background: #c0c0c0;
+  border-radius: 50%;
+}
+.rank-badge.top3 {
+  background: #cd7f32;
+  border-radius: 50%;
+}
+
+.rank-icon {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.rank-text {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #999;
+}
+
+/* 技师信息 */
+.tech-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.tech-avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+  background: #e8ecf4;
+}
+
+.tech-detail {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tech-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1a1a2e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tech-role {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+/* 绩效数据 */
+.tech-stats {
+  display: flex;
+  align-items: center;
+  margin-left: 12rpx;
+  flex-shrink: 0;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80rpx;
+}
+
+.stat-value {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #2b5cf5;
+}
+
+.stat-label {
+  font-size: 20rpx;
+  color: #bbb;
+  margin-top: 4rpx;
+}
+
+.stat-divider {
+  width: 1rpx;
+  height: 40rpx;
+  background: #e8ecf4;
+  margin: 0 16rpx;
+}
+
+/* 排名变动指示器 */
+.rank-change {
+  margin-left: 12rpx;
+  flex-shrink: 0;
+  width: 48rpx;
+  text-align: center;
+}
+
+.change-up {
+  color: #22c55e;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.change-down {
+  color: #ef4444;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.change-steady {
+  color: #ccc;
+  font-size: 24rpx;
+}
+
+/* 加载状态 */
+.loading-area,
+.no-more {
+  text-align: center;
+  padding: 30rpx 0;
+}
+
+.loading-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.no-more-text {
+  font-size: 24rpx;
+  color: #ccc;
+}
