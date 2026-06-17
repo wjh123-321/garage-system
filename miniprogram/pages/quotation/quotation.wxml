@@ -1,0 +1,67 @@
+<view class="page">
+  <view wx:if="{{loading}}" class="loading">加载报价单...</view>
+
+  <block wx:else>
+    <!-- 头部 -->
+    <view class="card">
+      <view class="detail-header">
+        <text class="quotation-no">{{quotation.quotation_no}}</text>
+        <text class="status-tag {{quotation._statusClass}}">{{quotation._statusLabel}}</text>
+      </view>
+      <view class="info-row"><text class="label">创建时间</text><text>{{quotation._createdAt}}</text></view>
+      <view class="info-row"><text class="label">有效期至</text><text>{{quotation.valid_until}}</text></view>
+    </view>
+
+    <!-- 客户信息 -->
+    <view class="card">
+      <view class="section-title">客户信息</view>
+      <view class="info-row"><text class="label">车主</text><text>{{quotation.customer_name}}</text></view>
+      <view class="info-row"><text class="label">电话</text><text>{{quotation.customer_phone}}</text></view>
+      <view class="info-row"><text class="label">车牌号</text><text class="plate">{{quotation.car_plate}}</text></view>
+      <view class="info-row" wx:if="{{quotation.car_model}}"><text class="label">车型</text><text>{{quotation.car_model}}</text></view>
+    </view>
+
+    <!-- 报价项目 -->
+    <view class="card">
+      <view class="section-title">
+        报价明细
+        <text class="section-sub">{{quotation.items.length}} 项</text>
+      </view>
+      <view wx:for="{{quotation.items}}" wx:key="*this" class="item-row">
+        <view class="item-info">
+          <text class="item-name">{{item.name}}</text>
+          <text class="item-qty">{{item.quantity}} x ¥{{item.unit_price}}</text>
+        </view>
+        <view class="item-price">
+          <text class="item-total">¥{{item.total}}</text>
+        </view>
+      </view>
+      <view class="total-row">
+        <text>合计金额</text>
+        <text class="total-amount">¥{{quotation.total_amount}}</text>
+      </view>
+    </view>
+
+    <!-- 备注 -->
+    <view class="card" wx:if="{{quotation.notes}}">
+      <view class="section-title">备注说明</view>
+      <view class="notes-box">{{quotation.notes}}</view>
+    </view>
+
+    <!-- 免责声明 -->
+    <view class="card">
+      <view class="section-title">说明</view>
+      <view class="notes-box">
+        1. 本报价单有效期至 {{quotation.valid_until}}，逾期需重新报价。{{"\n"}}
+        2. 实际费用以维修完成后结算为准，如有增项将另行通知。{{"\n"}}
+        3. 本报价单最终解释权归本店所有。
+      </view>
+    </view>
+  </block>
+</view>
+
+<!-- 底部操作栏 -->
+<view class="footer-bar" wx:if="{{!loading}}">
+  <view class="btn-secondary" bindtap="onShare">📄 转发</view>
+  <view class="btn-send" bindtap="onSendToCustomer">📤 发送给客户</view>
+</view>
