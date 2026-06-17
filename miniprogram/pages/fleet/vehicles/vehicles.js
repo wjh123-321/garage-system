@@ -170,7 +170,28 @@ Page({
       )
     }
 
-    this.setData({ vehicles: list })
+    this.setData({ vehicles: list.map(this._enrichVehicle.bind(this)) })
+  },
+
+  _enrichVehicle(v) {
+    var statusInfo = this.getStatusInfo(v.status)
+    return {
+      ...v,
+      _statusLabel: statusInfo.label,
+      _statusClass: statusInfo.value,
+      _vinDisplay: v.vin ? v.vin.slice(-6) : '--',
+      _insuranceWarning: this._isExpiring(v.insuranceExpiry),
+      _inspectionWarning: this._isExpiring(v.inspectionExpiry),
+    }
+  },
+
+  _isExpiring(dateStr) {
+    if (!dateStr) return false
+    var now = new Date()
+    var expiry = new Date(dateStr)
+    var diffMs = expiry.getTime() - now.getTime()
+    var diffDays = diffMs / (1000 * 60 * 60 * 24)
+    return diffDays >= 0 && diffDays <= 45
   },
 
   loadMockRecords() {
@@ -211,7 +232,7 @@ Page({
     if (vehicle) {
       this.setData({
         view: 'detail',
-        currentVehicle: vehicle,
+        currentVehicle: this._enrichVehicle(vehicle),
         activeTab: 0,
       })
     }
@@ -271,12 +292,4 @@ Page({
     return VEHICLE_STATUS[status] || VEHICLE_STATUS.IDLE
   },
 
-  isExpiring(dateStr) {
-    if (!dateStr) return false
-    const now = new Date()
-    const expiry = new Date(dateStr)
-    const diffMs = expiry.getTime() - now.getTime()
-    const diffDays = diffMs / (1000 * 60 * 60 * 24)
-    return diffDays >= 0 && diffDays <= 45
-  },
 })
