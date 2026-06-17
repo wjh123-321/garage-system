@@ -1,0 +1,299 @@
+<!-- ===================== 列表视图 ===================== -->
+<view wx:if="{{ view === 'list' }}" class="page-list">
+
+  <!-- 顶部搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrap">
+      <text class="search-icon">🔍</text>
+      <input class="search-input" placeholder="搜索车牌/品牌/司机" value="{{ searchKeyword }}" bindinput="onSearchInput" />
+    </view>
+    <view class="add-btn" bindtap="showAddForm">
+      <text class="add-icon">＋</text>
+      <text>添加</text>
+    </view>
+  </view>
+
+  <!-- 状态筛选 -->
+  <scroll-view class="filter-bar" scroll-x enhanced show-scrollbar="{{ false }}">
+    <view class="filter-item {{ statusFilter === '' ? 'active' : '' }}" data-value="" bindtap="onFilterChange">
+      <text>全部</text>
+    </view>
+    <view
+      wx:for="{{ statusOptions }}"
+      wx:key="value"
+      class="filter-item {{ statusFilter === item.value ? 'active' : '' }}"
+      data-value="{{ item.value }}"
+      bindtap="onFilterChange"
+    >
+      <view class="filter-dot" style="background: {{ item.color }}"></view>
+      <text>{{ item.label }}</text>
+    </view>
+  </scroll-view>
+
+  <!-- 车辆列表 -->
+  <view class="vehicle-list">
+    <view
+      wx:for="{{ vehicles }}"
+      wx:key="id"
+      class="vehicle-card"
+      data-id="{{ item.id }}"
+      bindtap="goToDetail"
+    >
+      <view class="card-top">
+        <text class="plate">{{ item.plate }}</text>
+        <text
+          class="status-tag"
+          style="background: {{ getStatusInfo(item.status).color }}1a; color: {{ getStatusInfo(item.status).color }}; border-color: {{ getStatusInfo(item.status).color }}40"
+        >{{ getStatusInfo(item.status).label }}</text>
+      </view>
+      <view class="card-info">
+        <text class="brand">{{ item.brand }} {{ item.model }}</text>
+        <text class="driver">👤 {{ item.driver }}</text>
+      </view>
+      <view class="card-meta">
+        <text>📅 {{ item.year }}年</text>
+        <text>📏 {{ item.mileage }}km</text>
+        <text>🔖 {{ item.vin.slice(-6) }}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{ vehicles.length === 0 }}" class="empty-state">
+    <text class="empty-icon">🚗</text>
+    <text class="empty-text">暂无车辆</text>
+    <text class="empty-sub">点击"添加"录入第一台车</text>
+  </view>
+</view>
+
+
+<!-- ===================== 详情视图 ===================== -->
+<view wx:elif="{{ view === 'detail' }}" class="page-detail">
+
+  <!-- 顶部导航 -->
+  <view class="detail-header">
+    <view class="detail-back" bindtap="goBack">
+      <text class="back-arrow">‹</text>
+      <text>返回</text>
+    </view>
+    <text class="detail-title">车辆详情</text>
+    <view class="detail-placeholder"></view>
+  </view>
+
+  <scroll-view class="detail-body" scroll-y enhanced>
+
+    <!-- 车辆概览卡片 -->
+    <view class="overview-card">
+      <view class="overview-top">
+        <text class="overview-plate">{{ currentVehicle.plate }}</text>
+        <text
+          class="status-tag-lg"
+          style="background: {{ getStatusInfo(currentVehicle.status).color }}1a; color: {{ getStatusInfo(currentVehicle.status).color }}"
+        >{{ getStatusInfo(currentVehicle.status).label }}</text>
+      </view>
+      <text class="overview-model">{{ currentVehicle.brand }} {{ currentVehicle.model }}</text>
+      <view class="overview-stats">
+        <view class="stat-item">
+          <text class="stat-num">{{ currentVehicle.mileage }}</text>
+          <text class="stat-unit">行驶里程(km)</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-num">{{ currentVehicle.monthlyIncome }}</text>
+          <text class="stat-unit">月均流水(元)</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部 Tab -->
+    <view class="tab-bar">
+      <view
+        wx:for="{{ tabs }}"
+        wx:key="id"
+        class="tab-item {{ activeTab === index ? 'active' : '' }}"
+        data-index="{{ index }}"
+        bindtap="switchTab"
+      >
+        <text>{{ item.label }}</text>
+        <view wx:if="{{ activeTab === index }}" class="tab-indicator"></view>
+      </view>
+    </view>
+
+    <!-- Tab: 车辆档案 -->
+    <view wx:if="{{ activeTab === 0 }}" class="tab-content">
+      <view class="info-grid">
+        <view class="info-row">
+          <text class="info-label">车牌号码</text>
+          <text class="info-value">{{ currentVehicle.plate }}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">品牌</text>
+          <text class="info-value">{{ currentVehicle.brand }}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">车型</text>
+          <text class="info-value">{{ currentVehicle.model }}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">购买年份</text>
+          <text class="info-value">{{ currentVehicle.year }}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">VIN</text>
+          <text class="info-value info-vin">{{ currentVehicle.vin }}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">司机</text>
+          <text class="info-value">{{ currentVehicle.driver }}  {{ currentVehicle.driverPhone }}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">保险到期</text>
+          <text class="info-value {{ isExpiring(currentVehicle.insuranceExpiry) ? 'warning' : '' }}">
+            {{ currentVehicle.insuranceExpiry }}
+            <text wx:if="{{ isExpiring(currentVehicle.insuranceExpiry) }}" class="badge-warning">即将到期</text>
+          </text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">年检到期</text>
+          <text class="info-value {{ isExpiring(currentVehicle.inspectionExpiry) ? 'warning' : '' }}">
+            {{ currentVehicle.inspectionExpiry }}
+            <text wx:if="{{ isExpiring(currentVehicle.inspectionExpiry) }}" class="badge-warning">即将到期</text>
+          </text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Tab: 维修记录 (调工单列表) -->
+    <view wx:elif="{{ activeTab === 1 }}" class="tab-content">
+      <view wx:for="{{ maintenanceRecords }}" wx:key="id" class="record-card">
+        <view class="record-top">
+          <text class="record-type">{{ item.type }}</text>
+          <text class="record-date">{{ item.date }}</text>
+        </view>
+        <text class="record-desc">{{ item.desc }}</text>
+        <view class="record-bottom">
+          <text class="record-shop">{{ item.shop }}</text>
+          <text class="record-cost">¥{{ item.cost }}</text>
+        </view>
+      </view>
+      <view wx:if="{{ maintenanceRecords.length === 0 }}" class="empty-state small">
+        <text class="empty-text">暂无维修记录</text>
+      </view>
+    </view>
+
+    <!-- Tab: 油耗记录 -->
+    <view wx:elif="{{ activeTab === 2 }}" class="tab-content">
+      <view class="fuel-summary">
+        <text class="fuel-summary-num">6.5L/100km</text>
+        <text class="fuel-summary-label">综合油耗</text>
+      </view>
+      <view wx:for="{{ fuelRecords }}" wx:key="*this" class="record-card">
+        <view class="record-top">
+          <text class="record-date">{{ item.date }}</text>
+          <text class="record-cost">¥{{ item.cost }}</text>
+        </view>
+        <view class="fuel-detail">
+          <text>{{ item.amount }}</text>
+          <text>{{ item.mileage }}km</text>
+          <text>单价 ¥{{ item.unitCost }}/km</text>
+        </view>
+      </view>
+      <view wx:if="{{ fuelRecords.length === 0 }}" class="empty-state small">
+        <text class="empty-text">暂无油耗记录</text>
+      </view>
+    </view>
+
+    <!-- Tab: 收支 -->
+    <view wx:elif="{{ activeTab === 3 }}" class="tab-content">
+      <view class="finance-summary">
+        <view class="finance-box income">
+          <text class="finance-num">¥{{ currentVehicle.monthlyIncome }}</text>
+          <text class="finance-label">本月收入</text>
+        </view>
+        <view class="finance-box expense">
+          <text class="finance-num">¥{{ currentVehicle.monthlyFuel + currentVehicle.monthlyMaintenance }}</text>
+          <text class="finance-label">本月支出</text>
+        </view>
+        <view class="finance-box profit">
+          <text class="finance-num">¥{{ currentVehicle.monthlyIncome - currentVehicle.monthlyFuel - currentVehicle.monthlyMaintenance }}</text>
+          <text class="finance-label">本月净利</text>
+        </view>
+      </view>
+      <view wx:for="{{ financeRecords }}" wx:key="*this" class="record-card">
+        <view class="record-top">
+          <text class="record-date">{{ item.date }}</text>
+          <text class="record-cost {{ item.type === 'expense' ? 'expense' : 'income' }}">
+            {{ item.type === 'expense' ? '-' : '+' }}¥{{ item.amount }}
+          </text>
+        </view>
+        <text class="record-desc">{{ item.category }} · {{ item.note }}</text>
+      </view>
+      <view wx:if="{{ financeRecords.length === 0 }}" class="empty-state small">
+        <text class="empty-text">暂无收支记录</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+
+
+<!-- ===================== 添加车辆视图 ===================== -->
+<view wx:elif="{{ view === 'add' }}" class="page-add">
+
+  <view class="detail-header">
+    <view class="detail-back" bindtap="goBack">
+      <text class="back-arrow">‹</text>
+      <text>返回</text>
+    </view>
+    <text class="detail-title">添加车辆</text>
+    <view class="detail-placeholder"></view>
+  </view>
+
+  <scroll-view class="add-body" scroll-y enhanced>
+    <view class="form-section">
+      <view class="form-group">
+        <text class="form-label">车牌号码 <text class="required">*</text></text>
+        <input class="form-input" placeholder="例：京A·88888" value="{{ formData.plate }}" data-field="plate" bindinput="onFormInput" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">品牌 <text class="required">*</text></text>
+        <input class="form-input" placeholder="例：丰田" value="{{ formData.brand }}" data-field="brand" bindinput="onFormInput" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">车型</text>
+        <input class="form-input" placeholder="例：凯美瑞 2024款" value="{{ formData.model }}" data-field="model" bindinput="onFormInput" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">购买年份</text>
+        <input class="form-input" placeholder="例：2024" type="number" value="{{ formData.year }}" data-field="year" bindinput="onFormInput" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">VIN</text>
+        <input class="form-input" placeholder="17位车架号" value="{{ formData.vin }}" data-field="vin" bindinput="onFormInput" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">司机 <text class="required">*</text></text>
+        <input class="form-input" placeholder="司机姓名" value="{{ formData.driver }}" data-field="driver" bindinput="onFormInput" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">司机电话</text>
+        <input class="form-input" placeholder="手机号码" type="number" value="{{ formData.driverPhone }}" data-field="driverPhone" bindinput="onFormInput" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">购入日期</text>
+        <input class="form-input" placeholder="yyyy-mm-dd" value="{{ formData.purchaseDate }}" data-field="purchaseDate" bindinput="onFormInput" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">保险到期</text>
+        <input class="form-input" placeholder="yyyy-mm-dd" value="{{ formData.insuranceExpiry }}" data-field="insuranceExpiry" bindinput="onFormInput" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">年检到期</text>
+        <input class="form-input" placeholder="yyyy-mm-dd" value="{{ formData.inspectionExpiry }}" data-field="inspectionExpiry" bindinput="onFormInput" />
+      </view>
+    </view>
+
+    <view class="form-actions">
+      <button class="btn-submit" bindtap="submitVehicle">提交保存</button>
+      <button class="btn-cancel" bindtap="goBack">取消</button>
+    </view>
+  </scroll-view>
+</view>
