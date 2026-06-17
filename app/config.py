@@ -8,11 +8,11 @@ class Settings(BaseSettings):
     APP_VERSION: str = "0.1.0"
     DEBUG: bool = False
 
-    # PostgreSQL - can be overridden by env vars (Zeabur auto-injects)
-    DB_HOST: str = "localhost"
+    # PostgreSQL - Zeabur auto-injects via service binding
+    DB_HOST: str = "postgresql"
     DB_PORT: int = 5432
     DB_USER: str = "postgres"
-    DB_PASSWORD: str = "postgres"
+    DB_PASSWORD: str = "5G7ENXj2Y69y31LOcfsKwFmZ80bC4iae"
     DB_NAME: str = "postgres"
 
     @property
@@ -22,13 +22,11 @@ class Settings(BaseSettings):
             f"@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
         )
 
-    # JWT (for future auth extension)
     SECRET_KEY: str = "change-this-in-production-super-secret-key"
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 480  # 8 hours
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 480
 
-    # CORS
-    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    CORS_ORIGINS: list[str] = ["*"]
 
     # Volcengine Ark AI
     VOLC_ARK_API_KEY: str = "ark-1b134190-ce8b-4aba-a0f7-b349445b8c2c-c8e9a"
