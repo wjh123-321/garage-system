@@ -1,0 +1,72 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/work-order/list/list",
+    "pages/work-order/detail/detail",
+    "pages/work-order/create/create",
+    "pages/customer/list/list",
+    "pages/customer/detail/detail",
+    "pages/part/list/list",
+    "pages/scan/scan",
+    "pages/ai/dashboard/dashboard",
+    "pages/report/report",
+    "pages/compare/compare",
+    "pages/appointment-board/appointment-board",
+    "pages/vin/vin",
+    "pages/finance/finance",
+    "pages/vision/vision",
+    "pages/notification/notification",
+    "pages/supplier/supplier",
+    "pages/performance/performance",
+    "pages/review/review",
+    "pages/quotation/quotation",
+    "pages/membership/list/list",
+    "pages/membership/detail/detail",
+    "pages/staff/list/list",
+    "pages/template/list/list",
+    "pages/template/detail/detail",
+    "pages/inspection/inspection",
+    "pages/supplier/detail/detail"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#1a1a2e",
+    "navigationBarTitleText": "汽修智能管理",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#1a1a2e",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
+        "pagePath": "pages/work-order/list/list",
+        "text": "工单",
+        "iconPath": "images/order.png",
+        "selectedIconPath": "images/order-active.png"
+      },
+      {
+        "pagePath": "pages/customer/list/list",
+        "text": "客户",
+        "iconPath": "images/customer.png",
+        "selectedIconPath": "images/customer-active.png"
+      },
+      {
+        "pagePath": "pages/part/list/list",
+        "text": "配件",
+        "iconPath": "images/part.png",
+        "selectedIconPath": "images/part-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
