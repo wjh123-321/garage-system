@@ -1,0 +1,19 @@
+.page { min-height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 120rpx; }
+.search-bar { margin: 16rpx; }
+.supplier-card {
+  background: #fff; margin: 16rpx; padding: 24rpx;
+  border-radius: 20rpx; box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.supplier-name { font-size: 32rpx; font-weight: 600; }
+.supplier-status { font-size: 24rpx; padding: 4rpx 16rpx; border-radius: 8rpx; }
+.supplier-status.active { background: #e8f5e9; color: #2e7d32; }
+.supplier-status.inactive { background: #fbe9e7; color: #c62828; }
+.supplier-info { font-size: 26rpx; color: #666; margin-top: 8rpx; }
+.fab {
+  position: fixed; right: 32rpx; bottom: 100rpx;
+  width: 100rpx; height: 100rpx; border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: #fff; font-size: 60rpx; display: flex;
+  align-items: center; justify-content: center;
+  box-shadow: 0 4rpx 20rpx rgba(26,26,46,0.3);
+}
