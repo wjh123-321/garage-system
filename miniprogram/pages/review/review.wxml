@@ -1,0 +1,48 @@
+<view class="page">
+  <!-- 提交评价 -->
+  <view class="card">
+    <view class="section-title">提交评价</view>
+    <view class="form-group">
+      <text class="form-label">工单ID</text>
+      <input class="input-field" placeholder="请输入工单编号" value="{{orderId}}" bindinput="onOrderIdInput" />
+    </view>
+    <view class="form-group">
+      <text class="form-label">评分</text>
+      <view class="star-row">
+        <view wx:for="{{stars}}" wx:key="*this" class="star-item" data-star="{{item}}" bindtap="selectStar">
+          <text class="star {{item <= rating ? 'active' : ''}}">★</text>
+        </view>
+        <text class="rating-text" wx:if="{{rating > 0}}">{{rating}}分</text>
+        <text class="rating-text muted" wx:else>点击星星评分</text>
+      </view>
+    </view>
+    <view class="form-group">
+      <text class="form-label">评价内容</text>
+      <textarea class="textarea-field" placeholder="说说您的体验（选填）" value="{{comment}}" bindinput="onCommentInput" maxlength="500" />
+    </view>
+    <view class="form-group" style="margin-top: 32rpx">
+      <button class="btn-primary" bindtap="submit" disabled="{{submitting}}">
+        {{submitting ? '提交中...' : '提交评价'}}
+      </button>
+    </view>
+  </view>
+
+  <!-- 历史评价 -->
+  <view class="card">
+    <view class="section-title">历史评价</view>
+    <view wx:if="{{loading}}" class="loading">加载中...</view>
+    <view wx:elif="{{reviews.length === 0}}" class="empty">暂无评价</view>
+    <view wx:else class="review-list">
+      <view wx:for="{{reviews}}" wx:for-item="r" wx:key="id" class="review-item">
+        <view class="review-header">
+          <view class="review-stars">
+            <text wx:for="{{stars}}" wx:key="*this" class="star small {{item <= r.rating ? 'active' : ''}}">★</text>
+          </view>
+          <text class="review-date">{{r.created_at}}</text>
+        </view>
+        <text class="review-comment" wx:if="{{r.comment}}">{{r.comment}}</text>
+        <text class="review-comment muted" wx:else>该用户未留下文字评价</text>
+      </view>
+    </view>
+  </view>
+</view>
