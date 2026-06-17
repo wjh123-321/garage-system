@@ -107,8 +107,10 @@ module.exports = {
   updateTemplate: (id, data) => request(`/templates/${id}`, 'PUT', data),
   deleteTemplate: (id) => request(`/templates/${id}`, 'DELETE'),
 
+  request: request,
+
   // 配件商城
-  getPartsStoreBrands: () => request('/parts-store/brands'),
+  getPartsStoreBrands: (params) => request('/parts-store/brands?' + obj2Params(params)),
   getPartsStoreModels: (brand) => request('/parts-store/models?brand=' + encodeURIComponent(brand)),
   searchPartsStore: (params) => request('/parts-store/search?' + obj2Params(params)),
   getPartDetail: (params) => request('/parts-store/detail?' + obj2Params(params)),
