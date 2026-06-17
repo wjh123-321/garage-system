@@ -27,7 +27,11 @@
     "pages/template/detail/detail",
     "pages/inspection/inspection",
     "pages/supplier/detail/detail",
-    "pages/parts-store/parts-store"
+    "pages/parts-store/parts-store",
+    "pages/features/features",
+    "pages/fleet/dashboard/dashboard",
+    "pages/fleet/vehicles/vehicles",
+    "pages/fleet/fuel/fuel"
   ],
   "window": {
     "navigationBarBackgroundColor": "#1a1a2e",
