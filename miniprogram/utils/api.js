@@ -103,6 +103,13 @@ module.exports = {
   createTemplate: (data) => request('/templates', 'POST', data),
   updateTemplate: (id, data) => request(`/templates/${id}`, 'PUT', data),
   deleteTemplate: (id) => request(`/templates/${id}`, 'DELETE'),
+
+  // 配件商城
+  getPartsStoreBrands: () => request('/parts-store/brands'),
+  getPartsStoreModels: (brand) => request('/parts-store/models?brand=' + encodeURIComponent(brand)),
+  searchPartsStore: (params) => request('/parts-store/search?' + obj2Params(params)),
+  getPartDetail: (params) => request('/parts-store/detail?' + obj2Params(params)),
+  getPartsByVin: (vin) => request('/parts-store/vin/' + vin),
 }
 
 function obj2Params(obj) {
