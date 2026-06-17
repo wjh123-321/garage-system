@@ -1,0 +1,74 @@
+<view class="page">
+
+  <!-- 月份导航 -->
+  <view class="cal-header">
+    <view class="cal-nav" bindtap="prevMonth">
+      <text class="nav-arrow">&#60;</text>
+    </view>
+    <view class="cal-title">{{year}}年{{month}}月</view>
+    <view class="cal-nav" bindtap="nextMonth">
+      <text class="nav-arrow">&#62;</text>
+    </view>
+  </view>
+
+  <!-- 星期行 -->
+  <view class="weekday-row">
+    <view wx:for="{{weekdays}}" wx:key="index" class="weekday {{item === '六' || item === '日' ? 'weekend' : ''}}">{{item}}</view>
+  </view>
+
+  <!-- 日历网格 -->
+  <view class="cal-grid">
+    <view wx:for="{{calendarDays}}" wx:for-item="day" wx:key="index" class="cal-cell
+      {{day.isCurrentMonth ? '' : 'dimmed'}}
+      {{day.isToday ? 'today' : ''}}
+      {{day.isSelected ? 'selected' : ''}}"
+      bindtap="selectDay" data-date="{{day.dateStr}}"
+      data-empty="{{day.isEmpty}}">
+      <text class="cal-day-num">{{day.dayNum}}</text>
+      <view wx:if="{{day.hasAppointment}}" class="cal-dot"></view>
+    </view>
+  </view>
+
+  <!-- 预约列表标题 -->
+  <view class="list-header">
+    <text class="list-title">{{selectedLabel}} 预约</text>
+    <text class="list-count">{{appointments.length}}条</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 预约列表 -->
+  <view wx:if="{{!loading && appointments.length > 0}}" class="card-list">
+    <view wx:for="{{appointments}}" wx:key="id" class="apt-card" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="apt-top">
+        <text class="apt-name">{{item.customer_name}}</text>
+        <text class="apt-status status-{{item.status}}">{{item.status === 'pending' ? '待确认' : item.status === 'confirmed' ? '已确认' : item.status === 'done' ? '已完成' : item.status}}</text>
+      </view>
+      <view class="apt-info-row">
+        <text class="apt-label">车牌</text>
+        <text class="apt-value">{{item.car_plate}}</text>
+      </view>
+      <view class="apt-info-row">
+        <text class="apt-label">时间</text>
+        <text class="apt-value">{{item.appoint_time}}</text>
+      </view>
+      <view class="apt-info-row" wx:if="{{item.car_model}}">
+        <text class="apt-label">车型</text>
+        <text class="apt-value">{{item.car_model}}</text>
+      </view>
+      <view class="apt-info-row" wx:if="{{item.description}}">
+        <text class="apt-label">备注</text>
+        <text class="apt-value">{{item.description}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{!loading && appointments.length === 0}}" class="empty-wrap">
+    <text class="empty-text">当天暂无预约</text>
+  </view>
+
+</view>
