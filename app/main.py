@@ -13,7 +13,7 @@ from sqlalchemy import func
 
 from .config import settings
 from .database import engine, Base, get_db
-from .routers import customers, work_orders, parts, reminders, ai as ai_router, vin, appointments
+from .routers import customers, work_orders, parts, reminders, ai as ai_router, vin, appointments, notifications, vision, reports, printing, finance, suppliers, performance, membership, reviews, templates, staff, inspection, quotations
 from .models.customer import Customer
 from .models.work_order import WorkOrder
 from .models.part import Part
@@ -33,20 +33,8 @@ FRONTEND_DIR = os.path.join(_BASE, "frontend", "dist")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Create tables on startup - auto-creates DB if needed."""
-    from sqlalchemy import create_engine as _ce, text as _text
-    try:
-        Base.metadata.create_all(bind=engine)
-    except Exception as e:
-        logging.warning(f"Table creation failed: {e}")
-        try:
-            tmp = _ce(f"postgresql://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/postgres", isolation_level="AUTOCOMMIT")
-            with tmp.connect() as conn:
-                conn.execute(_text(f'CREATE DATABASE "{settings.DB_NAME}"'))
-            tmp.dispose()
-            Base.metadata.create_all(bind=engine)
-        except Exception as e2:
-            logging.warning(f"DB create also failed: {e2}")
+    """Create tables on startup (dev convenience; use Alembic in production)."""
+    Base.metadata.create_all(bind=engine)
     yield
 
 
@@ -86,6 +74,19 @@ app.include_router(reminders.router)
 app.include_router(ai_router.router)
 app.include_router(vin.router)
 app.include_router(appointments.router)
+app.include_router(notifications.router)
+app.include_router(vision.router)
+app.include_router(suppliers.router)
+app.include_router(printing.router)
+app.include_router(reports.router)
+app.include_router(finance.router)
+app.include_router(performance.router)
+app.include_router(membership.router)
+app.include_router(reviews.router)
+app.include_router(staff.router)
+app.include_router(templates.router)
+app.include_router(inspection.router)
+app.include_router(quotations.router)
 
 
 @app.get("/api/health")
