@@ -13,7 +13,7 @@ from sqlalchemy import func
 
 from .config import settings
 from .database import engine, Base, get_db
-from .routers import customers, work_orders, parts, reminders, ai as ai_router, vin, appointments, notifications, vision, reports, printing, finance, suppliers, performance, membership, reviews, templates, staff, inspection, quotations
+from .routers import customers, work_orders, parts, reminders, ai as ai_router, vin, appointments, notifications, vision, reports, printing, finance, suppliers, performance, membership, reviews, templates, staff, inspection, quotations, parts_store
 from .models.customer import Customer
 from .models.work_order import WorkOrder
 from .models.part import Part
@@ -87,6 +87,7 @@ app.include_router(staff.router)
 app.include_router(templates.router)
 app.include_router(inspection.router)
 app.include_router(quotations.router)
+app.include_router(parts_store.router)
 
 
 @app.get("/api/health")
