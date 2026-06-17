@@ -12,7 +12,7 @@ class Settings(BaseSettings):
 
     @property
     def DATABASE_URL(self) -> str:
-        DB_DIR = os.path.join(/app, "data")
+        DB_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
         os.makedirs(DB_DIR, exist_ok=True)
         return f"sqlite:///{os.path.join(DB_DIR, 'garage.db')}"
 
