@@ -25,6 +25,9 @@ const request = (url, method = 'GET', data = {}) => {
 }
 
 module.exports = {
+  // 通用请求
+  request: request,
+
   // 客户
   getCustomers: (params) => request('/customers?' + obj2Params(params)),
   getCustomer: (id) => request(`/customers/${id}`),
