@@ -1,0 +1,79 @@
+<!-- 技师绩效页面 -->
+<view class="page">
+
+  <!-- 统计概览 -->
+  <view class="summary-card">
+    <view class="summary-item">
+      <text class="summary-num">{{totalTechs}}</text>
+      <text class="summary-label">技师总数</text>
+    </view>
+    <view class="summary-item">
+      <text class="summary-num">{{totalOrders}}</text>
+      <text class="summary-label">总工单数</text>
+    </view>
+    <view class="summary-item">
+      <text class="summary-num">{{totalRevenue}}</text>
+      <text class="summary-label">总营收(元)</text>
+    </view>
+  </view>
+
+  <!-- 排行榜头部 -->
+  <view class="ranking-header">
+    <text class="ranking-title">技师排行榜</text>
+    <view class="ranking-tabs">
+      <view class="tab {{sortBy === 'orders' ? 'active' : ''}}" bindtap="onSortChange" data-sort="orders">工单数</view>
+      <view class="tab {{sortBy === 'revenue' ? 'active' : ''}}" bindtap="onSortChange" data-sort="revenue">总营收</view>
+    </view>
+  </view>
+
+  <!-- 技师列表 -->
+  <scroll-view class="list" scroll-y bindscrolltolower="onLoadMore" enable-back-to-top>
+    <view class="technician-card" wx:for="{{techList}}" wx:key="id" wx:for-index="idx">
+      <!-- 排名 -->
+      <view class="rank-badge {{idx < 3 ? 'top' + (idx + 1) : ''}}">
+        <image wx:if="{{idx === 0}}" src="/images/icon-gold.png" mode="aspectFit" class="rank-icon"></image>
+        <image wx:elif="{{idx === 1}}" src="/images/icon-silver.png" mode="aspectFit" class="rank-icon"></image>
+        <image wx:elif="{{idx === 2}}" src="/images/icon-bronze.png" mode="aspectFit" class="rank-icon"></image>
+        <text wx:else class="rank-text">{{idx + 1}}</text>
+      </view>
+
+      <!-- 技师信息 -->
+      <view class="tech-info">
+        <image class="tech-avatar" src="{{item.avatar || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+        <view class="tech-detail">
+          <text class="tech-name">{{item.name}}</text>
+          <text class="tech-role">{{item.role || '技师'}}</text>
+        </view>
+      </view>
+
+      <!-- 绩效数据 -->
+      <view class="tech-stats">
+        <view class="stat-item">
+          <text class="stat-value">{{item.orders}}</text>
+          <text class="stat-label">工单</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-value">{{item.revenue}}</text>
+          <text class="stat-label">营收</text>
+        </view>
+      </view>
+
+      <!-- 排名变动指示器 -->
+      <view class="rank-change">
+        <text wx:if="{{item.rankChange > 0}}" class="change-up">↑{{item.rankChange}}</text>
+        <text wx:elif="{{item.rankChange < 0}}" class="change-down">↓{{Math.abs(item.rankChange)}}</text>
+        <text wx:else class="change-steady">-</text>
+      </view>
+    </view>
+
+    <!-- 加载状态 -->
+    <view class="loading-area" wx:if="{{loading}}">
+      <text class="loading-text">加载中...</text>
+    </view>
+    <view class="no-more" wx:elif="{{!hasMore}}">
+      <text class="no-more-text">没有更多了</text>
+    </view>
+  </scroll-view>
+
+</view>
