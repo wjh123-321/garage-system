@@ -10,61 +10,11 @@ class Settings(BaseSettings):
     APP_VERSION: str = "0.1.0"
     DEBUG: bool = False
 
-    # PostgreSQL
-    DB_HOST: str = "localhost"
-    DB_PORT: int = 5432
-    DB_USER: str = "postgres"
-    DB_PASSWORD: str = "postgres"
-    DB_NAME: str = "garage_system"
-
-    def __init__(self, **kwargs):
-        # Zeabur-compatible env var fallback chains.
-        # Zeabur injects POSTGRES_PASSWORD (and similar) automatically,
-        # but the field name may not match. We resolve the first available
-        # env var for each credential and pass it as a keyword argument
-        # (highest priority in pydantic-settings resolution order).
-        if "DB_PASSWORD" not in kwargs:
-            kwargs["DB_PASSWORD"] = (
-                os.environ.get("DB_PASSWORD")
-                or os.environ.get("POSTGRES_PASSWORD")
-                or os.environ.get("PASSWORD")
-                or "postgres"
-            )
-        if "DB_HOST" not in kwargs:
-            kwargs["DB_HOST"] = (
-                os.environ.get("DB_HOST")
-                or os.environ.get("POSTGRES_HOST")
-                or os.environ.get("POSTGRESQL_HOST")
-                or "localhost"
-            )
-        if "DB_PORT" not in kwargs:
-            kwargs["DB_PORT"] = int(
-                os.environ.get("DB_PORT")
-                or os.environ.get("POSTGRES_PORT")
-                or "5432"
-            )
-        if "DB_USER" not in kwargs:
-            kwargs["DB_USER"] = (
-                os.environ.get("DB_USER")
-                or os.environ.get("POSTGRES_USER")
-                or os.environ.get("POSTGRES_USERNAME")
-                or "postgres"
-            )
-        if "DB_NAME" not in kwargs:
-            kwargs["DB_NAME"] = (
-                os.environ.get("DB_NAME")
-                or os.environ.get("POSTGRES_NAME")
-                or os.environ.get("POSTGRESQL_NAME")
-                or "postgres"
-            )
-        super().__init__(**kwargs)
-
     @property
     def DATABASE_URL(self) -> str:
-        return (
-            f"postgresql://{self.DB_USER}:{self.DB_PASSWORD}"
-            f"@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
-        )
+        DB_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
+        os.makedirs(DB_DIR, exist_ok=True)
+        return f"sqlite:///{os.path.join(DB_DIR, 'garage.db')}"
 
     # JWT (for future auth extension)
     SECRET_KEY: str = "change-this-in-production-super-secret-key"
