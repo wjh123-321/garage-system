@@ -1,0 +1,80 @@
+<view class="page">
+  <view class="card">
+    <view class="vin-title">VIN码解码</view>
+    <text class="vin-desc">输入17位车辆识别码，查询车型信息</text>
+    <view class="vin-input-area">
+      <input class="vin-input" placeholder="请输入17位VIN码" value="{{vin}}" bindinput="onVinInput" maxlength="17" auto-focus="{{false}}" />
+      <text class="vin-count">{{vin.length}}/17</text>
+    </view>
+    <button class="btn-primary" disabled="{{vin.length !== 17}}" bindtap="onDecode">{{loading ? '解码中...' : '解码查询'}}</button>
+  </view>
+
+  <view wx:if="{{searched && !loading}}" class="card result-card">
+    <view class="section-title">解码结果</view>
+
+    <view wx:if="{{error}}" class="error-state">
+      <text class="error-icon">!</text>
+      <text class="error-text">{{error}}</text>
+    </view>
+
+    <block wx:elif="{{result}}">
+      <view class="vin-badge">VIN: {{vin}}</view>
+
+      <view class="info-grid">
+        <view class="info-item">
+          <text class="info-label">品牌</text>
+          <text class="info-value">{{result.make || '-'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">车系</text>
+          <text class="info-value">{{result.model || '-'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">年款</text>
+          <text class="info-value">{{result.year || '-'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">车身形式</text>
+          <text class="info-value">{{result.body_style || '-'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">发动机</text>
+          <text class="info-value">{{result.engine || '-'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">变速箱</text>
+          <text class="info-value">{{result.transmission || '-'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">驱动方式</text>
+          <text class="info-value">{{result.drivetrain || '-'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">燃油类型</text>
+          <text class="info-value">{{result.fuel_type || '-'}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{result.plant_name || result.region}}" class="extra-section">
+        <view class="section-title">产地信息</view>
+        <view class="info-grid">
+          <view class="info-item" wx:if="{{result.plant_name}}">
+            <text class="info-label">生产工厂</text>
+            <text class="info-value">{{result.plant_name}}</text>
+          </view>
+          <view class="info-item" wx:if="{{result.region}}">
+            <text class="info-label">生产区域</text>
+            <text class="info-value">{{result.region}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{history.length > 0}}" class="card">
+    <view class="section-title">查询历史</view>
+    <view wx:for="{{history}}" wx:key="index" class="history-item" bindtap="onHistoryTap" data-vin="{{item}}">
+      <text class="history-vin">{{item}}</text>
+    </view>
+  </view>
+</view>
