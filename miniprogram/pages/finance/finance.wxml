@@ -1,0 +1,114 @@
+<view class="page">
+
+  <!-- 错误状态 -->
+  <view wx:if="{{_showError}}" class="error-state">
+    <text class="error-icon">⚠️</text>
+    <text class="error-text">{{_errorMsg}}</text>
+    <view class="retry-btn" bindtap="onReload">重新加载</view>
+  </view>
+
+  <block wx:else>
+
+    <!-- 日期筛选栏 -->
+    <view class="filter-bar">
+      <view class="filter-tabs">
+        <view class="filter-tab {{dateLabel=='今天'?'active':''}}" data-range="today" bindtap="onQuickFilter">今天</view>
+        <view class="filter-tab {{dateLabel=='昨天'?'active':''}}" data-range="yesterday" bindtap="onQuickFilter">昨天</view>
+        <view class="filter-tab {{dateLabel=='本周'?'active':''}}" data-range="week" bindtap="onQuickFilter">本周</view>
+        <view class="filter-tab {{dateLabel=='本月'?'active':''}}" data-range="month" bindtap="onQuickFilter">本月</view>
+        <view class="filter-tab {{dateLabel=='本季度'?'active':''}}" data-range="quarter" bindtap="onQuickFilter">本季度</view>
+      </view>
+      <view class="date-custom" bindtap="onDateTap">
+        <text class="date-label">{{dateLabel}}</text>
+        <text class="date-arrow">▼</text>
+      </view>
+    </view>
+
+    <!-- 汇总卡片 -->
+    <view class="summary-grid">
+      <view class="summary-card">
+        <text class="summary-label">总营收</text>
+        <text class="summary-num primary">¥{{summary.total_revenue.toFixed(2)}}</text>
+      </view>
+      <view class="summary-card">
+        <text class="summary-label">工单收入</text>
+        <text class="summary-num income">¥{{summary.work_order_income.toFixed(2)}}</text>
+      </view>
+      <view class="summary-card">
+        <text class="summary-label">配件支出</text>
+        <text class="summary-num expense">¥{{summary.parts_expense.toFixed(2)}}</text>
+      </view>
+      <view class="summary-card">
+        <text class="summary-label">净利润</text>
+        <text class="summary-num {{summary.net_profit >= 0 ? 'profit' : 'loss'}}">¥{{summary.net_profit.toFixed(2)}}</text>
+      </view>
+    </view>
+
+    <!-- 收支对比条形图 -->
+    <view class="card chart-card">
+      <view class="section-title">收支概览</view>
+      <view class="chart-bar">
+        <view class="chart-row">
+          <text class="chart-label">收入</text>
+          <view class="chart-track">
+            <view class="chart-fill income-bar" style="width: {{summary.work_order_income > 0 || summary.parts_expense > 0 ? (summary.work_order_income / (summary.work_order_income + summary.parts_expense) * 100).toFixed(1) : 0}}%"></view>
+          </view>
+          <text class="chart-value income">¥{{summary.work_order_income.toFixed(0)}}</text>
+        </view>
+        <view class="chart-row">
+          <text class="chart-label">支出</text>
+          <view class="chart-track">
+            <view class="chart-fill expense-bar" style="width: {{summary.work_order_income > 0 || summary.parts_expense > 0 ? (summary.parts_expense / (summary.work_order_income + summary.parts_expense) * 100).toFixed(1) : 0}}%"></view>
+          </view>
+          <text class="chart-value expense">¥{{summary.parts_expense.toFixed(0)}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 明细列表 -->
+    <view class="card">
+      <view class="section-title">
+        <text>交易明细</text>
+        <text wx:if="{{details.length > 0}}" class="detail-count">{{details.length}}笔</text>
+      </view>
+
+      <!-- 加载中 -->
+      <view wx:if="{{loading && details.length === 0}}" class="loading-state">
+        <text class="loading-text">加载中...</text>
+      </view>
+
+      <!-- 空状态 -->
+      <view wx:elif="{{_showEmpty}}" class="empty-state">
+        <text class="empty-icon">📊</text>
+        <text class="empty-text">暂无交易记录</text>
+        <text class="empty-hint">试试其他日期范围</text>
+      </view>
+
+      <!-- 列表 -->
+      <block wx:else>
+        <view wx:for="{{details}}" wx:key="_id" class="detail-item" bindtap="onItemTap" data-order="{{item._orderNo}}">
+          <view class="detail-left">
+            <text class="detail-icon">{{item._typeIcon}}</text>
+            <view class="detail-info">
+              <text class="detail-type">{{item._typeLabel}}</text>
+              <text class="detail-desc">{{item._desc}}</text>
+              <text class="detail-time">{{item._time}}</text>
+            </view>
+          </view>
+          <text class="detail-amount {{item._amountClass}}">{{item._amount}}</text>
+        </view>
+
+        <!-- 加载更多 -->
+        <view wx:if="{{hasMore}}" class="load-more" bindtap="loadMore">
+          <text wx:if="{{loading}}" class="load-text">加载中...</text>
+          <text wx:else class="load-text">点击加载更多</text>
+        </view>
+        <view wx:else class="load-more load-end">
+          <text class="load-text">— 已展示全部 —</text>
+        </view>
+      </block>
+    </view>
+
+  </block>
+
+</view>
