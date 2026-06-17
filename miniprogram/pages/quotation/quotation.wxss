@@ -1,0 +1,44 @@
+.page { min-height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 120rpx; }
+.loading { text-align: center; padding: 80rpx 0; color: #999; font-size: 28rpx; }
+
+/* 头部状态 */
+.detail-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16rpx; border-bottom: 2rpx solid #f0f0f0; }
+.quotation-no { font-size: 32rpx; font-weight: 700; color: #1a1a2e; }
+.status-tag { font-size: 22rpx; padding: 4rpx 16rpx; border-radius: 20rpx; background: #fff3e0; color: #e65100; }
+.status-tag.sent { background: #e3f2fd; color: #1565c0; }
+.status-tag.accepted { background: #e8f5e9; color: #2e7d32; }
+.status-tag.rejected { background: #fce4ec; color: #c62828; }
+
+/* 区块 */
+.card { background: #fff; border-radius: 16rpx; margin: 20rpx; padding: 24rpx; box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06); }
+.section-title { font-size: 30rpx; font-weight: 600; margin-bottom: 16rpx; padding-bottom: 12rpx; border-bottom: 2rpx solid #f0f0f0; }
+.section-sub { font-size: 24rpx; color: #999; float: right; font-weight: 400; }
+
+/* 信息行 */
+.info-row { display: flex; justify-content: space-between; padding: 10rpx 0; font-size: 26rpx; }
+.info-row .label { color: #999; flex-shrink: 0; }
+.plate { font-weight: 700; color: #1a1a2e; font-size: 32rpx; }
+
+/* 项目列表 */
+.item-row { display: flex; justify-content: space-between; align-items: center; padding: 16rpx 0; border-bottom: 2rpx solid #f8f8f8; }
+.item-row:last-child { border-bottom: none; }
+.item-info { flex: 1; }
+.item-name { font-size: 28rpx; font-weight: 500; }
+.item-qty { font-size: 22rpx; color: #999; margin-top: 4rpx; }
+.item-price { text-align: right; }
+.item-unit-price { font-size: 22rpx; color: #999; }
+.item-total { font-size: 28rpx; color: #e65100; font-weight: 600; }
+
+/* 合计 */
+.total-row { display: flex; justify-content: space-between; padding: 20rpx 0 0; margin-top: 12rpx; border-top: 2rpx solid #eee; font-weight: 600; font-size: 30rpx; }
+.total-amount { font-size: 40rpx; color: #e65100; font-weight: 700; }
+
+/* 备注 */
+.notes-box { font-size: 26rpx; color: #666; line-height: 1.6; padding: 12rpx; background: #f9f9f9; border-radius: 8rpx; }
+
+/* 底部按钮栏 */
+.footer-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 16rpx 24rpx; background: #fff; box-shadow: 0 -4rpx 12rpx rgba(0,0,0,0.08); display: flex; gap: 20rpx; z-index: 100; }
+.btn-send { flex: 1; height: 88rpx; line-height: 88rpx; text-align: center; background: linear-gradient(135deg, #1a1a2e, #16213e); color: #fff; border-radius: 44rpx; font-size: 32rpx; font-weight: 600; }
+.btn-send:active { opacity: 0.85; }
+.btn-secondary { flex: 0 0 160rpx; height: 88rpx; line-height: 88rpx; text-align: center; background: #f5f5f5; color: #333; border-radius: 44rpx; font-size: 28rpx; }
+.btn-secondary:active { background: #e8e8e8; }
