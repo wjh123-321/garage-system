@@ -26,7 +26,8 @@
     "pages/template/list/list",
     "pages/template/detail/detail",
     "pages/inspection/inspection",
-    "pages/supplier/detail/detail"
+    "pages/supplier/detail/detail",
+    "pages/parts-store/parts-store"
   ],
   "window": {
     "navigationBarBackgroundColor": "#1a1a2e",
