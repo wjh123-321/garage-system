@@ -48,7 +48,7 @@ Page({
     if (refresh) this.setData({ page: 1, notifications: [] })
     try {
       const params = { page: this.data.page, page_size: 20 }
-      const res = await api.get('/api/notifications', { data: params }) || {}
+      const res = await api.request('/notifications', 'GET', params) || {}
       const items = res.items || res.data || []
       var computedItems = items.map(this._computeDisplay.bind(this))
       this.setData({
@@ -105,7 +105,7 @@ Page({
           [statusClass]: 'sent'
         })
         // sync to server
-        api.post('/api/notifications/' + id + '/send').catch(function() {
+        api.request('/notifications/' + id + '/send', 'POST').catch(function() {
           // rollback on failure
           var rollback = 'notifications[' + idx + '].status'
           var rbLabel = 'notifications[' + idx + ']._statusLabel'
@@ -134,7 +134,7 @@ Page({
       success: function(res) {
         if (!res.confirm) return
         pending.forEach(function(n) {
-          api.post('/api/notifications/' + n.id + '/send').catch(function() {})
+          api.request('/notifications/' + n.id + '/send', 'POST').catch(function() {})
         })
         this._refreshAllStatus()
         wx.showToast({ title: '已全部标记发送', icon: 'success' })
