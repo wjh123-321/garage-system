@@ -1,6 +1,7 @@
 """Application configuration via environment variables."""
 
 from pydantic_settings import BaseSettings
+import os
 
 
 class Settings(BaseSettings):
@@ -9,11 +10,12 @@ class Settings(BaseSettings):
     DEBUG: bool = False
 
     # PostgreSQL - Zeabur auto-injects via service binding
-    DB_HOST: str = "postgresql"
-    DB_PORT: int = 5432
-    DB_USER: str = "postgres"
-    DB_PASSWORD: str = "5G7ENXj2Y69y31LOcfsKwFmZ80bC4iae"
-    DB_NAME: str = "postgres"
+    # Use auto-injected vars first, fallback to defaults
+    DB_HOST: str = os.getenv("DB_HOST") or os.getenv("POSTGRESQL_HOST") or "localhost"
+    DB_PORT: int = int(os.getenv("DB_PORT") or os.getenv("POSTGRESQL_PORT") or "5432")
+    DB_USER: str = os.getenv("DB_USER") or os.getenv("POSTGRESQL_USER") or "postgres"
+    DB_PASSWORD: str = os.getenv("DB_PASSWORD") or os.getenv("PASSWORD") or os.getenv("POSTGRESQL_PASSWORD") or "postgres"
+    DB_NAME: str = os.getenv("DB_NAME") or os.getenv("POSTGRESQL_NAME") or "postgres"
 
     @property
     def DATABASE_URL(self) -> str:
