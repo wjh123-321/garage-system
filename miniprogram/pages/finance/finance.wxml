@@ -28,19 +28,19 @@
     <view class="summary-grid">
       <view class="summary-card">
         <text class="summary-label">总营收</text>
-        <text class="summary-num primary">¥{{summary.total_revenue.toFixed(2)}}</text>
+        <text class="summary-num primary">¥{{summary._revenueDisplay}}</text>
       </view>
       <view class="summary-card">
         <text class="summary-label">工单收入</text>
-        <text class="summary-num income">¥{{summary.work_order_income.toFixed(2)}}</text>
+        <text class="summary-num income">¥{{summary._incomeDisplay}}</text>
       </view>
       <view class="summary-card">
         <text class="summary-label">配件支出</text>
-        <text class="summary-num expense">¥{{summary.parts_expense.toFixed(2)}}</text>
+        <text class="summary-num expense">¥{{summary._expenseDisplay}}</text>
       </view>
       <view class="summary-card">
         <text class="summary-label">净利润</text>
-        <text class="summary-num {{summary.net_profit >= 0 ? 'profit' : 'loss'}}">¥{{summary.net_profit.toFixed(2)}}</text>
+        <text class="summary-num {{summary._profitClass}}">¥{{summary._profitDisplay}}</text>
       </view>
     </view>
 
@@ -51,16 +51,16 @@
         <view class="chart-row">
           <text class="chart-label">收入</text>
           <view class="chart-track">
-            <view class="chart-fill income-bar" style="width: {{summary.work_order_income > 0 || summary.parts_expense > 0 ? (summary.work_order_income / (summary.work_order_income + summary.parts_expense) * 100).toFixed(1) : 0}}%"></view>
+            <view class="chart-fill income-bar" style="width: {{summary._incomeBarWidth}}%"></view>
           </view>
-          <text class="chart-value income">¥{{summary.work_order_income.toFixed(0)}}</text>
+          <text class="chart-value income">¥{{summary._incomeShortDisplay}}</text>
         </view>
         <view class="chart-row">
           <text class="chart-label">支出</text>
           <view class="chart-track">
-            <view class="chart-fill expense-bar" style="width: {{summary.work_order_income > 0 || summary.parts_expense > 0 ? (summary.parts_expense / (summary.work_order_income + summary.parts_expense) * 100).toFixed(1) : 0}}%"></view>
+            <view class="chart-fill expense-bar" style="width: {{summary._expenseBarWidth}}%"></view>
           </view>
-          <text class="chart-value expense">¥{{summary.parts_expense.toFixed(0)}}</text>
+          <text class="chart-value expense">¥{{summary._expenseShortDisplay}}</text>
         </view>
       </view>
     </view>
@@ -73,9 +73,11 @@
       </view>
 
       <!-- 加载中 -->
-      <view wx:if="{{loading && details.length === 0}}" class="loading-state">
-        <text class="loading-text">加载中...</text>
-      </view>
+      <block wx:if="{{loading}}">
+        <view wx:if="{{details.length === 0}}" class="loading-state">
+          <text class="loading-text">加载中...</text>
+        </view>
+      </block>
 
       <!-- 空状态 -->
       <view wx:elif="{{_showEmpty}}" class="empty-state">
@@ -86,7 +88,7 @@
 
       <!-- 列表 -->
       <block wx:else>
-        <view wx:for="{{details}}" wx:key="_id" class="detail-item" bindtap="onItemTap" data-order="{{item._orderNo}}">
+        <view wx:for="{{details}}" wx:key="_id" class="detail-item" bindtap="onItemTap" data-id="{{item.id}}">
           <view class="detail-left">
             <text class="detail-icon">{{item._typeIcon}}</text>
             <view class="detail-info">
