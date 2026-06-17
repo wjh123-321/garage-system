@@ -1,0 +1,47 @@
+<view class="page">
+  <!-- 加载提示 -->
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+
+  <!-- 对比卡片 -->
+  <view class="card compare-card" wx:if="{{!loading}}">
+    <view class="section-title">📈 经营对比</view>
+    <view class="compare-grid">
+      <view class="compare-col">
+        <text class="period-label">{{current.period}}</text>
+        <text class="amount">¥{{current.revenue}}</text>
+        <text class="sub">工单 {{current.orders}}单</text>
+        <text class="sub">客单价 ¥{{current.avg_ticket}}</text>
+      </view>
+      <view class="vs">VS</view>
+      <view class="compare-col">
+        <text class="period-label">{{previous.period}}</text>
+        <text class="amount">¥{{previous.revenue}}</text>
+        <text class="sub">工单 {{previous.orders}}单</text>
+        <text class="sub">客单价 ¥{{previous.avg_ticket}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 变化率卡片 -->
+  <view class="card change-card" wx:if="{{!loading}}">
+    <view class="section-title">📊 变化率</view>
+
+    <view class="change-row">
+      <text class="change-label">营收</text>
+      <text wx:if="{{changes.revenue_percent >= 0}}" class="change-value up">🔺 +{{changes.revenue_percent}}%</text>
+      <text wx:else class="change-value down">🔻 {{changes.revenue_percent}}%</text>
+    </view>
+
+    <view class="change-row">
+      <text class="change-label">工单数</text>
+      <text wx:if="{{changes.orders_percent >= 0}}" class="change-value up">🔺 +{{changes.orders_percent}}%</text>
+      <text wx:else class="change-value down">🔻 {{changes.orders_percent}}%</text>
+    </view>
+
+    <view class="change-row">
+      <text class="change-label">客单价</text>
+      <text wx:if="{{changes.avg_ticket_percent >= 0}}" class="change-value up">🔺 +{{changes.avg_ticket_percent}}%</text>
+      <text wx:else class="change-value down">🔻 {{changes.avg_ticket_percent}}%</text>
+    </view>
+  </view>
+</view>
