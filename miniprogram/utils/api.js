@@ -115,6 +115,19 @@ module.exports = {
   searchPartsStore: (params) => request('/parts-store/search?' + obj2Params(params)),
   getPartDetail: (params) => request('/parts-store/detail?' + obj2Params(params)),
   getPartsByVin: (vin) => request('/parts-store/vin/' + vin),
+
+  // 车队管理
+  getFleetDashboard: () => request("/fleet/dashboard"),
+  getFleetVehicles: (params) => request("/fleet/vehicles?" + obj2Params(params)),
+  getFleetVehicle: (id) => request("/fleet/vehicles/" + id),
+  createFleetVehicle: (data) => request("/fleet/vehicles", "POST", data),
+  updateFleetVehicle: (id, data) => request("/fleet/vehicles/" + id, "PUT", data),
+  deleteFleetVehicle: (id) => request("/fleet/vehicles/" + id, "DELETE"),
+  getFleetFuel: (params) => request("/fleet/fuel?" + obj2Params(params)),
+  createFleetFuel: (data) => request("/fleet/fuel", "POST", data),
+  getFleetFinance: (params) => request("/fleet/finance?" + obj2Params(params)),
+  getFleetFinanceSummary: (params) => request("/fleet/finance/summary?" + obj2Params(params)),
+  createFleetFinance: (data) => request("/fleet/finance", "POST", data),
 }
 
 function obj2Params(obj) {
