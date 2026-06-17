@@ -1,0 +1,57 @@
+<view class="page">
+  <!-- 头部信息 -->
+  <view class="page-header">
+    <text class="page-title">接车验车单</text>
+    <text class="page-subtitle" wx:if="{{orderId}}">工单 #{{orderId}}</text>
+  </view>
+
+  <!-- ===== 一、拍照上传 ===== -->
+  <view class="card">
+    <view class="section-title">一、车身拍照</view>
+    <view class="photo-grid">
+      <view class="photo-item" wx:for="{{angles}}" wx:key="key" data-key="{{item.key}}">
+        <view class="photo-wrapper">
+          <block wx:if="{{photos[item.key] && photos[item.key].tempPath}}">
+            <image class="photo-img" src="{{photos[item.key].tempPath}}" mode="aspectFill" bindtap="previewPhoto" data-key="{{item.key}}" />
+            <view class="photo-remove" bindtap="removePhoto" data-key="{{item.key}}">×</view>
+          </block>
+          <block wx:else>
+            <view class="photo-placeholder" bindtap="choosePhoto" data-key="{{item.key}}">
+              <text class="photo-icon">{{item.icon}}</text>
+              <text class="photo-label">{{item.label}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 二、车辆信息 ===== -->
+  <view class="card">
+    <view class="section-title">二、车辆状态</view>
+
+    <view class="form-group">
+      <text class="form-label">当前里程 (km)</text>
+      <input class="input-field" placeholder="请输入里程数" value="{{mileage}}" bindinput="onMileageInput" type="number" />
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">剩余油量</text>
+      <picker class="picker" mode="selector" range="{{fuelOptions}}" value="{{fuelIndex}}" bindchange="onFuelChange">
+        <view class="picker-value">{{fuelLevel || '请选择油量'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-group">
+      <text class="form-label">车况备注</text>
+      <textarea class="textarea-field" placeholder="记录外观划痕、凹陷、改装、故障灯等情况…" value="{{notes}}" bindinput="onNotesInput" maxlength="500" auto-height />
+    </view>
+  </view>
+
+  <!-- ===== 三、提交 ===== -->
+  <view class="form-footer">
+    <button class="btn-primary" bindtap="submit" disabled="{{submitting}}">
+      {{submitting ? '提交中…' : (isNew ? '保存验车单' : '更新验车单')}}
+    </button>
+  </view>
+</view>
