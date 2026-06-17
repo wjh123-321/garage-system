@@ -1,0 +1,17 @@
+<view class="page">
+  <view class="search-bar">
+    <input class="input-field" placeholder="搜索供应商名称/联系人/手机" bindinput="search" />
+  </view>
+  <view wx:for="{{suppliers}}" wx:key="id" class="supplier-card" bindtap="goDetail" data-id="{{item.id}}">
+    <view class="flex items-center justify-between">
+      <text class="supplier-name">{{item.name}}</text>
+      <text class="supplier-status {{item._statusClass}}">{{item._statusLabel}}</text>
+    </view>
+    <view class="supplier-info">{{item.contact_person || '未设置联系人'}} · {{item.phone || '-'}}</view>
+    <view class="supplier-info text-sm text-gray">{{item.address || '未填写地址'}}</view>
+  </view>
+  <block wx:if="{{_showEmpty}}">
+    <view wx:if="{{!loading}}" class="empty-state">暂无供应商</view>
+  </block>
+  <view class="fab" bindtap="goCreate">+</view>
+</view>
