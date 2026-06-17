@@ -42,9 +42,8 @@
       <view class="card-top">
         <text class="plate">{{ item.plate }}</text>
         <text
-          class="status-tag"
-          style="background: {{ getStatusInfo(item.status).color }}1a; color: {{ getStatusInfo(item.status).color }}; border-color: {{ getStatusInfo(item.status).color }}40"
-        >{{ getStatusInfo(item.status).label }}</text>
+          class="status-tag tag-{{item._statusClass}}"
+        >{{ item._statusLabel }}</text>
       </view>
       <view class="card-info">
         <text class="brand">{{ item.brand }} {{ item.model }}</text>
@@ -53,7 +52,7 @@
       <view class="card-meta">
         <text>📅 {{ item.year }}年</text>
         <text>📏 {{ item.mileage }}km</text>
-        <text>🔖 {{ item.vin.slice(-6) }}</text>
+        <text>🔖 {{ item._vinDisplay }}</text>
       </view>
     </view>
   </view>
@@ -86,10 +85,7 @@
     <view class="overview-card">
       <view class="overview-top">
         <text class="overview-plate">{{ currentVehicle.plate }}</text>
-        <text
-          class="status-tag-lg"
-          style="background: {{ getStatusInfo(currentVehicle.status).color }}1a; color: {{ getStatusInfo(currentVehicle.status).color }}"
-        >{{ getStatusInfo(currentVehicle.status).label }}</text>
+        <text class="status-tag-lg tag-{{currentVehicle._statusClass}}">{{ currentVehicle._statusLabel }}</text>
       </view>
       <text class="overview-model">{{ currentVehicle.brand }} {{ currentVehicle.model }}</text>
       <view class="overview-stats">
@@ -147,16 +143,16 @@
         </view>
         <view class="info-row">
           <text class="info-label">保险到期</text>
-          <text class="info-value {{ isExpiring(currentVehicle.insuranceExpiry) ? 'warning' : '' }}">
+          <text class="info-value {{currentVehicle._insuranceWarning ? 'warning' : ''}}">
             {{ currentVehicle.insuranceExpiry }}
-            <text wx:if="{{ isExpiring(currentVehicle.insuranceExpiry) }}" class="badge-warning">即将到期</text>
+            <text wx:if="{{currentVehicle._insuranceWarning}}" class="badge-warning">即将到期</text>
           </text>
         </view>
         <view class="info-row">
           <text class="info-label">年检到期</text>
-          <text class="info-value {{ isExpiring(currentVehicle.inspectionExpiry) ? 'warning' : '' }}">
+          <text class="info-value {{currentVehicle._inspectionWarning ? 'warning' : ''}}">
             {{ currentVehicle.inspectionExpiry }}
-            <text wx:if="{{ isExpiring(currentVehicle.inspectionExpiry) }}" class="badge-warning">即将到期</text>
+            <text wx:if="{{currentVehicle._inspectionWarning}}" class="badge-warning">即将到期</text>
           </text>
         </view>
       </view>
