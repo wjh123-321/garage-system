@@ -1,0 +1,576 @@
+/* ==================== 全局 ==================== */
+page {
+  background: #f5f6fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #333;
+  font-size: 28rpx;
+}
+
+/* ==================== 搜索栏 ==================== */
+.search-bar {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background: #fff;
+  gap: 20rpx;
+}
+
+.search-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #f5f6fa;
+  border-radius: 40rpx;
+  padding: 0 24rpx;
+  height: 68rpx;
+}
+
+.search-icon {
+  font-size: 28rpx;
+  margin-right: 12rpx;
+}
+
+.search-input {
+  flex: 1;
+  height: 68rpx;
+  font-size: 28rpx;
+  background: transparent;
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6rpx;
+  background: #1a7aff;
+  color: #fff;
+  border-radius: 40rpx;
+  padding: 14rpx 28rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.add-icon {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+/* ==================== 状态筛选 ==================== */
+.filter-bar {
+  display: flex;
+  white-space: nowrap;
+  padding: 20rpx 30rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #eee;
+}
+
+.filter-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 10rpx 24rpx;
+  margin-right: 16rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  color: #666;
+  background: #f5f6fa;
+  transition: all 0.2s;
+}
+
+.filter-item.active {
+  background: #1a7aff1a;
+  color: #1a7aff;
+  font-weight: 500;
+}
+
+.filter-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ==================== 车辆列表 ==================== */
+.vehicle-list {
+  padding: 20rpx 30rpx;
+}
+
+.vehicle-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s;
+}
+
+.vehicle-card:active {
+  transform: scale(0.98);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14rpx;
+}
+
+.plate {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: 2rpx;
+}
+
+.status-tag {
+  font-size: 22rpx;
+  padding: 6rpx 18rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid;
+  font-weight: 500;
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14rpx;
+}
+
+.brand {
+  font-size: 26rpx;
+  color: #444;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.driver {
+  font-size: 26rpx;
+  color: #888;
+  flex-shrink: 0;
+}
+
+.card-meta {
+  display: flex;
+  gap: 24rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* ==================== 空状态 ==================== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+  color: #bbb;
+}
+
+.empty-state.small {
+  padding: 60rpx 0;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 30rpx;
+  margin-bottom: 8rpx;
+}
+
+.empty-sub {
+  font-size: 26rpx;
+  color: #ccc;
+}
+
+/* ==================== 详情页通用 ==================== */
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30rpx;
+  height: 88rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.detail-back {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  font-size: 28rpx;
+  color: #1a7aff;
+}
+
+.back-arrow {
+  font-size: 40rpx;
+  line-height: 1;
+}
+
+.detail-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.detail-placeholder {
+  width: 80rpx;
+}
+
+.detail-body {
+  height: calc(100vh - 88rpx);
+}
+
+/* ==================== 概览卡片 ==================== */
+.overview-card {
+  background: linear-gradient(135deg, #1a7aff, #1a5cff);
+  margin: 20rpx 30rpx;
+  border-radius: 20rpx;
+  padding: 32rpx;
+  color: #fff;
+}
+
+.overview-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.overview-plate {
+  font-size: 40rpx;
+  font-weight: 700;
+  letter-spacing: 3rpx;
+}
+
+.status-tag-lg {
+  font-size: 24rpx;
+  padding: 8rpx 24rpx;
+  border-radius: 24rpx;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+}
+
+.overview-model {
+  font-size: 28rpx;
+  opacity: 0.85;
+  margin-bottom: 28rpx;
+}
+
+.overview-stats {
+  display: flex;
+  gap: 40rpx;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-num {
+  font-size: 36rpx;
+  font-weight: 700;
+}
+
+.stat-unit {
+  font-size: 22rpx;
+  opacity: 0.7;
+  margin-top: 4rpx;
+}
+
+/* ==================== Tab 栏 ==================== */
+.tab-bar {
+  display: flex;
+  background: #fff;
+  margin: 0 30rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  border-bottom: 1rpx solid #eee;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 22rpx 0;
+  font-size: 26rpx;
+  color: #888;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.tab-item.active {
+  color: #1a7aff;
+  font-weight: 500;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  width: 60rpx;
+  height: 4rpx;
+  border-radius: 2rpx;
+  background: #1a7aff;
+}
+
+/* ==================== Tab 内容 / 档案 ==================== */
+.tab-content {
+  padding: 20rpx 30rpx 40rpx;
+}
+
+.info-grid {
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.info-row {
+  display: flex;
+  padding: 26rpx 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  width: 160rpx;
+  font-size: 26rpx;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.info-value {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.info-value.warning {
+  color: #fa9a3e;
+}
+
+.info-vin {
+  font-family: "Courier New", monospace;
+  letter-spacing: 2rpx;
+  font-size: 24rpx;
+}
+
+.badge-warning {
+  display: inline-block;
+  font-size: 20rpx;
+  color: #fff;
+  background: #fa9a3e;
+  border-radius: 8rpx;
+  padding: 2rpx 12rpx;
+  margin-left: 10rpx;
+  vertical-align: middle;
+}
+
+/* ==================== 记录卡片（维修/油耗/收支 通用） ==================== */
+.record-card {
+  background: #fff;
+  border-radius: 14rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 16rpx;
+}
+
+.record-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.record-type {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #1a7aff;
+  background: #1a7aff0d;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.record-date {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.record-desc {
+  font-size: 26rpx;
+  color: #555;
+  margin-bottom: 12rpx;
+  line-height: 1.5;
+}
+
+.record-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.record-shop {
+  font-size: 24rpx;
+  color: #aaa;
+}
+
+.record-cost {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.record-cost.expense {
+  color: #e74c3c;
+}
+
+.record-cost.income {
+  color: #07c160;
+}
+
+/* 油耗详情 */
+.fuel-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.fuel-summary-num {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #1a7aff;
+}
+
+.fuel-summary-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 6rpx;
+}
+
+.fuel-detail {
+  display: flex;
+  gap: 24rpx;
+  font-size: 24rpx;
+  color: #888;
+}
+
+/* 收支汇总 */
+.finance-summary {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.finance-box {
+  flex: 1;
+  background: #fff;
+  border-radius: 14rpx;
+  padding: 20rpx;
+  text-align: center;
+}
+
+.finance-num {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  margin-bottom: 6rpx;
+}
+
+.finance-box.income .finance-num { color: #07c160; }
+.finance-box.expense .finance-num { color: #e74c3c; }
+.finance-box.profit .finance-num { color: #1a7aff; }
+
+.finance-label {
+  font-size: 22rpx;
+  color: #999;
+}
+
+/* ==================== 添加车辆 ==================== */
+.add-body {
+  height: calc(100vh - 88rpx);
+}
+
+.form-section {
+  padding: 20rpx 30rpx;
+}
+
+.form-group {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 16rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 26rpx;
+  color: #888;
+  margin-bottom: 12rpx;
+}
+
+.required {
+  color: #e74c3c;
+}
+
+.form-input {
+  width: 100%;
+  height: 52rpx;
+  font-size: 30rpx;
+  color: #333;
+  background: transparent;
+}
+
+.form-actions {
+  padding: 20rpx 30rpx 60rpx;
+}
+
+.btn-submit {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #1a7aff;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+  border-radius: 44rpx;
+  text-align: center;
+  margin-bottom: 20rpx;
+  border: none;
+}
+
+.btn-submit:active {
+  background: #0f5fd9;
+}
+
+.btn-cancel {
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #f5f6fa;
+  color: #666;
+  font-size: 30rpx;
+  border-radius: 44rpx;
+  text-align: center;
+  border: none;
+}
+
+.btn-cancel:active {
+  background: #e8e9ed;
+}
