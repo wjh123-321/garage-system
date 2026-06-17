@@ -1,0 +1,164 @@
+.page { min-height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 40rpx; }
+
+/* Tab */
+.tab-bar {
+  display: flex;
+  margin: 24rpx 24rpx 0;
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 30rpx;
+  color: #999;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.2s;
+}
+.tab-item.active {
+  color: #1a1a2e;
+  font-weight: 700;
+}
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48rpx;
+  height: 6rpx;
+  background: #1a1a2e;
+  border-radius: 3rpx;
+}
+
+/* 日期选择器 */
+.date-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24rpx;
+  margin: 20rpx 24rpx;
+  padding: 16rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.date-arrow {
+  font-size: 36rpx;
+  color: #1a1a2e;
+  padding: 8rpx 16rpx;
+  font-weight: 700;
+}
+.date-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 统计卡片 */
+.report-cards {
+  margin: 0 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+.report-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 32rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.report-card.income { border-left: 8rpx solid #2e7d32; }
+.report-card.orders { border-left: 8rpx solid #1565c0; }
+.report-card.avg { border-left: 8rpx solid #e65100; }
+.card-icon { font-size: 48rpx; margin-right: 24rpx; }
+.card-body { flex: 1; }
+.card-label { font-size: 26rpx; color: #999; display: block; }
+.card-value { font-size: 40rpx; font-weight: 700; color: #1a1a2e; display: block; margin-top: 4rpx; }
+
+/* 趋势图 */
+.section-title { font-size: 32rpx; font-weight: 600; margin-bottom: 24rpx; }
+.trend-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 12rpx;
+  height: 280rpx;
+  padding: 0 8rpx;
+}
+.trend-bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+.trend-bar {
+  width: 100%;
+  max-width: 60rpx;
+  background: linear-gradient(180deg, #1a1a2e, #3a3a5e);
+  border-radius: 8rpx 8rpx 0 0;
+  position: relative;
+  min-height: 16rpx;
+  transition: height 0.3s;
+}
+.trend-bar-val {
+  position: absolute;
+  top: -36rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20rpx;
+  color: #1a1a2e;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.trend-bar-label {
+  font-size: 20rpx;
+  color: #999;
+  margin-top: 8rpx;
+  text-align: center;
+}
+.chart-empty { margin-top: 80rpx; }
+
+/* 明细列表 */
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 2rpx solid #f5f5f5;
+}
+.detail-item:last-child { border-bottom: none; }
+.detail-left { display: flex; flex-direction: column; gap: 4rpx; }
+.detail-period { font-size: 28rpx; font-weight: 600; color: #333; }
+.detail-orders { font-size: 22rpx; color: #999; }
+.detail-right { text-align: right; }
+.detail-revenue { font-size: 30rpx; font-weight: 700; color: #2e7d32; display: block; }
+.detail-avg { font-size: 22rpx; color: #999; display: block; margin-top: 4rpx; }
+
+/* 通用 */
+.card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 32rpx;
+  margin: 16rpx 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.loading {
+  text-align: center;
+  padding: 40rpx;
+  color: #999;
+  font-size: 26rpx;
+}
+.empty-state {
+  text-align: center;
+  padding: 40rpx 0;
+  color: #ccc;
+  font-size: 26rpx;
+}
