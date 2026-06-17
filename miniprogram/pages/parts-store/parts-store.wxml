@@ -1,0 +1,126 @@
+<view class="page">
+
+  <!-- ===== 搜索区域 ===== -->
+  <view class="card search-area">
+    <view class="breadcrumb" wx:if="{{currentLevel !== 'brand'}}">
+      <text class="breadcrumb-link" bindtap="goHome">品牌</text>
+      <text wx:if="{{selectedBrand}}" class="breadcrumb-sep"> &gt; </text>
+      <text wx:if="{{selectedBrand}}" class="breadcrumb-item">{{selectedBrand._label}}</text>
+      <text wx:if="{{selectedModel}}" class="breadcrumb-sep"> &gt; </text>
+      <text wx:if="{{selectedModel}}" class="breadcrumb-item">{{selectedModel._label}}</text>
+      <text wx:if="{{selectedCategory}}" class="breadcrumb-sep"> &gt; </text>
+      <text wx:if="{{selectedCategory}}" class="breadcrumb-item">{{selectedCategory._label}}</text>
+    </view>
+    <view class="flex gap-8">
+      <input class="input-field" placeholder="搜索品牌（如：宝马、奔驰）" value="{{brandSearch}}" bindinput="onBrandSearchInput" bindconfirm="onBrandSearch" style="flex:1" />
+      <button class="btn-small btn-primary" bindtap="onBrandSearch">{{brandLoading ? '搜索中...' : '搜索'}}</button>
+    </view>
+  </view>
+
+  <!-- ===== 品牌列表 ===== -->
+  <block wx:if="{{currentLevel === 'brand'}}">
+    <view class="card" wx:if="{{brandLoading}}">
+      <view class="loading">加载中...</view>
+    </view>
+    <view wx:if="{{!brandLoading && brands.length > 0}}" class="card">
+      <view class="section-title">选择品牌</view>
+      <view wx:for="{{brands}}" wx:key="id" class="list-item" bindtap="selectBrand" data-brand="{{item}}">
+        <text class="list-item-text">{{item._label}}</text>
+        <text class="list-item-arrow">&gt;</text>
+      </view>
+    </view>
+    <view wx:if="{{!brandLoading && brands.length === 0 && brandSearch}}" class="empty-state">未找到匹配的品牌</view>
+  </block>
+
+  <!-- ===== 车型列表 ===== -->
+  <block wx:if="{{currentLevel === 'model'}}">
+    <view class="card" wx:if="{{modelLoading}}">
+      <view class="loading">加载中...</view>
+    </view>
+    <view wx:if="{{!modelLoading && models.length > 0}}" class="card">
+      <view class="section-title">选择车型（{{selectedBrand._label}}）</view>
+      <view wx:for="{{models}}" wx:key="id" class="list-item" bindtap="selectModel" data-model="{{item}}">
+        <text class="list-item-text">{{item._label}}</text>
+        <text class="list-item-arrow">&gt;</text>
+      </view>
+    </view>
+    <view wx:if="{{!modelLoading && models.length === 0}}" class="empty-state">该品牌暂无可选车型</view>
+  </block>
+
+  <!-- ===== 配件分类 ===== -->
+  <block wx:if="{{currentLevel === 'category'}}">
+    <view class="card" wx:if="{{categoryLoading}}">
+      <view class="loading">加载中...</view>
+    </view>
+    <view wx:if="{{!categoryLoading && categories.length > 0}}" class="card">
+      <view class="section-title">选择分类</view>
+      <view wx:for="{{categories}}" wx:key="id" class="list-item" bindtap="selectCategory" data-category="{{item}}">
+        <text class="list-item-text">{{item._label}}</text>
+        <text class="list-item-arrow">&gt;</text>
+      </view>
+    </view>
+    <view wx:if="{{!categoryLoading && categories.length === 0}}" class="empty-state">该车型暂无可选分类</view>
+  </block>
+
+  <!-- ===== 配件列表 ===== -->
+  <block wx:if="{{currentLevel === 'parts'}}">
+    <view class="card" wx:if="{{partsLoading}}">
+      <view class="loading">加载中...</view>
+    </view>
+    <view wx:if="{{!partsLoading && parts.length > 0}}">
+      <view class="card" wx:for="{{parts}}" wx:key="id" wx:for-item="part" bindtap="showPartDetail" data-part="{{part}}">
+        <view class="flex items-center justify-between">
+          <text class="part-name">{{part._label}}</text>
+          <text class="part-arrow">&gt;</text>
+        </view>
+        <view class="part-meta">
+          <text wx:if="{{part.oe_no}}" class="part-oe">OE: {{part.oe_no}}</text>
+          <text wx:if="{{part.reference_price || part.price}}" class="part-price">参考价: ¥{{part.reference_price || part.price}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{!partsLoading && parts.length === 0}}" class="empty-state">该分类暂未收录配件</view>
+  </block>
+
+  <!-- ===== 配件详情 ===== -->
+  <block wx:if="{{currentLevel === 'detail' && selectedPart}}">
+    <view class="card" wx:if="{{detailLoading}}">
+      <view class="loading">加载中...</view>
+    </view>
+    <view wx:if="{{!detailLoading}}" class="card">
+      <view class="flex items-center justify-between mb-16">
+        <text class="detail-title">{{selectedPart.name}}</text>
+        <text class="detail-back" bindtap="goBack">返回</text>
+      </view>
+      <view class="detail-row">
+        <text class="detail-label">OE号</text>
+        <text class="detail-value">{{selectedPart.oe_no}}</text>
+      </view>
+      <view class="detail-row">
+        <text class="detail-label">品牌建议</text>
+        <text class="detail-value">{{selectedPart.brand_suggestion}}</text>
+      </view>
+      <view class="detail-row">
+        <text class="detail-label">参考价格</text>
+        <text class="detail-value detail-price">¥{{selectedPart.reference_price}}</text>
+      </view>
+      <view class="detail-row">
+        <text class="detail-label">规格</text>
+        <text class="detail-value">{{selectedPart.spec}}</text>
+      </view>
+      <view class="detail-row">
+        <text class="detail-label">单位</text>
+        <text class="detail-value">{{selectedPart.unit}}</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- ===== 底部快捷操作 ===== -->
+  <view class="bottom-actions">
+    <button class="btn-primary btn-vin" bindtap="scanVin">
+      <text>📷 扫VIN查配件</text>
+    </button>
+    <view class="vin-manual" bindtap="inputVinManually">手动输入VIN码</view>
+  </view>
+
+</view>
