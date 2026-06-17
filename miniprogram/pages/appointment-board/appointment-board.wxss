@@ -1,0 +1,129 @@
+.page { min-height: 100vh; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 40rpx; }
+
+/* ---- 月份导航 ---- */
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 24rpx;
+  padding: 20rpx 0;
+}
+.cal-nav {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f0f0f0;
+}
+.cal-nav:active { background: #ddd; }
+.nav-arrow { font-size: 36rpx; font-weight: bold; color: #333; }
+.cal-title { font-size: 36rpx; font-weight: 700; color: #1a1a2e; }
+
+/* ---- 星期 ---- */
+.weekday-row {
+  display: flex;
+  margin: 0 16rpx;
+}
+.weekday {
+  flex: 1;
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  padding: 12rpx 0;
+}
+.weekday.weekend { color: #e65100; }
+
+/* ---- 日历网格 ---- */
+.cal-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 16rpx;
+}
+.cal-cell {
+  width: calc(100% / 7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14rpx 0;
+  position: relative;
+  box-sizing: border-box;
+}
+.cal-day-num {
+  font-size: 28rpx;
+  color: #333;
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  border-radius: 50%;
+}
+.cal-cell.dimmed .cal-day-num { color: #ccc; }
+.cal-cell.today .cal-day-num { background: #1a1a2e; color: #fff; font-weight: 600; }
+.cal-cell.selected .cal-day-num { background: #e3f2fd; color: #1565c0; font-weight: 600; }
+.cal-cell.today.selected .cal-day-num { background: #1565c0; color: #fff; }
+.cal-cell:active .cal-day-num { background: #e0e0e0; }
+
+.cal-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #e65100;
+  margin-top: 4rpx;
+}
+
+/* ---- 列表标题 ---- */
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24rpx 24rpx 16rpx;
+}
+.list-title { font-size: 32rpx; font-weight: 600; color: #1a1a2e; }
+.list-count { font-size: 24rpx; color: #999; }
+
+/* ---- 预约卡片 ---- */
+.card-list { margin: 0 16rpx; }
+.apt-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.apt-card:active { opacity: 0.85; }
+.apt-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+.apt-name { font-size: 30rpx; font-weight: 600; color: #1a1a2e; }
+.apt-status {
+  font-size: 22rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+.status-pending { background: #fff3e0; color: #e65100; }
+.status-confirmed { background: #e3f2fd; color: #1565c0; }
+.status-done { background: #e8f5e9; color: #2e7d32; }
+
+.apt-info-row {
+  display: flex;
+  align-items: center;
+  padding: 6rpx 0;
+}
+.apt-label { font-size: 26rpx; color: #999; width: 80rpx; flex-shrink: 0; }
+.apt-value { font-size: 26rpx; color: #333; flex: 1; }
+
+/* ---- 加载/空状态 ---- */
+.loading-wrap, .empty-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80rpx 0;
+}
+.loading-text { font-size: 28rpx; color: #999; }
+.empty-text { font-size: 28rpx; color: #bbb; }
