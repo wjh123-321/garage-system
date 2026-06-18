@@ -32,6 +32,7 @@ FRONTEND_DIR = os.path.join(_BASE, "frontend", "dist")
 
 
 @asynccontextmanager
+# trigger redeploy
 async def lifespan(app: FastAPI):
     """Create tables on startup (dev convenience; use Alembic in production)."""
     Base.metadata.create_all(bind=engine)
