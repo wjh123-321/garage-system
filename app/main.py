@@ -13,7 +13,7 @@ from sqlalchemy import func
 
 from .config import settings
 from .database import engine, Base, get_db
-from .routers import customers, work_orders, parts, reminders, ai as ai_router, vin, appointments, notifications, vision, reports, printing, finance, suppliers, performance, membership, reviews, templates, staff, inspection, quotations, parts_store, fleet_vehicles, fleet_fuel, fleet_finance, fleet_dashboard
+from .routers import customers, work_orders, parts, reminders, ai as ai_router, vin, appointments
 from .models.customer import Customer
 from .models.work_order import WorkOrder
 from .models.part import Part
@@ -32,10 +32,13 @@ FRONTEND_DIR = os.path.join(_BASE, "frontend", "dist")
 
 
 @asynccontextmanager
-# trigger redeploy
 async def lifespan(app: FastAPI):
     """Create tables on startup (dev convenience; use Alembic in production)."""
-    Base.metadata.create_all(bind=engine)
+    try:
+        Base.metadata.create_all(bind=engine)
+        logger.info("数据库表已创建/验证完成")
+    except Exception as e:
+        logger.warning(f"数据库连接失败（应用仍将启动，但数据库功能不可用）: {e}")
     yield
 
 
@@ -75,24 +78,6 @@ app.include_router(reminders.router)
 app.include_router(ai_router.router)
 app.include_router(vin.router)
 app.include_router(appointments.router)
-app.include_router(notifications.router)
-app.include_router(vision.router)
-app.include_router(suppliers.router)
-app.include_router(printing.router)
-app.include_router(reports.router)
-app.include_router(finance.router)
-app.include_router(performance.router)
-app.include_router(membership.router)
-app.include_router(reviews.router)
-app.include_router(staff.router)
-app.include_router(templates.router)
-app.include_router(inspection.router)
-app.include_router(quotations.router)
-app.include_router(parts_store.router)
-app.include_router(fleet_vehicles.router)
-app.include_router(fleet_fuel.router)
-app.include_router(fleet_finance.router)
-app.include_router(fleet_dashboard.router)
 
 
 @app.get("/api/health")
