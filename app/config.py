@@ -32,6 +32,7 @@ class Settings(BaseSettings):
         return (
             f"postgresql://{user}:{password}"
             f"@{host}:{port}/{database}"
+            f"?connect_timeout=5"
         )
 
     # JWT (for future auth extension)
@@ -43,7 +44,7 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000"]
 
     # Volcengine Ark AI
-    VOLC_ARK_API_KEY: str = "ark-1b134190-ce8b-4aba-a0f7-b349445b8c2c-c8e9a"
+    VOLC_ARK_API_KEY: str = ""
     VOLC_ARK_BASE_URL: str = "https://ark.cn-beijing.volces.com/api/v3"
     VOLC_ARK_MODEL: str = "doubao-pro-32k-250528"
     AI_ENABLED: bool = True
